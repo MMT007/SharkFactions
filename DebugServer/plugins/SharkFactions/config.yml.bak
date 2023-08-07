@@ -1,0 +1,40 @@
+### ------------------------------------------
+### //////////////////////////////////////////
+### ///// PLUGIN FEITO POR MMT007_BACKUP /////
+### //////////////////////////////////////////
+### ------------------------------------------
+
+### Idioma do Plugin:
+plugin-lang: pt_br
+
+
+### Blocos Permitidos Para Invasão:
+invasion-blocks:
+  - 'ladder'
+
+### Config de Facção:
+## Permite Que O Player Interaja Com Um Mob De Base Inimiga/Neutra
+faction-player-interact-entity: false
+
+## Maximo de Caracteres de Nome/Tag da Facção:
+faction-max-name-char: 16
+faction-max-tag-char: 4
+
+## Quantidade Maxima de players em uma Facção
+faction-max-players: 15
+
+## Se Qualquer Player Pode Dominar Um Chunk
+faction-player-dominate-chunk: false
+
+### Formato do Chat:
+
+## chat-format: Menssagem Que o Player Manda. Exemplo: * [DS] MMT007_backUP >> Olá
+## player-join: Menssagem Quando Um Player Entra No Server. Exemplo: [Factions] MMT007_backUP Entrou no Servidor!
+## player-first-join: Menssagem Quando Um Player Entra Pela Prmeira Vez No Server. Exemplo: [Factions] MMT007_backUP Entrou no Servidor Pela Primeira Vez!!
+## player-leave: Menssagem Quando Um Player Sai Do Server. Exemplo: [Factions] MMT007_backUP Saiu do Servidor
+
+## [ %plr% Player ] [ %msg% Menssagem ] [ %fac% Facção ]
+chat-format: "&e&l* <%fac%&e&l> %plr% &a>>&7 %msg%"
+player-join: "§6[Factions]§a %plr% Entrou no Servidor!"
+player-first-join: "§6[Factions]§5 %plr% Entrou no Servidor Pela Primeira Vez!!"
+player-leave: "§6[Factions]§a %plr% Saiu do Servidor!"

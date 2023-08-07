@@ -1,0 +1,28 @@
+### ------------------------------------------
+### //////////////////////////////////////////
+### ///// PLUGIN FEITO POR MMT007_BACKUP /////
+### //////////////////////////////////////////
+### ------------------------------------------
+
+### Idioma do Plugin:
+plugin-lang: pt_br
+
+
+### Blocos Permitidos Para Invasão:
+invasion-blocks:
+  - 'ladder'
+
+### Config de Facção:
+## Permite Que O Player Interaja Com Um Mob De Base Inimiga/Neutra
+faction-player-interact-entity: false
+
+## Maximo de Caracteres de Nome/Tag da Facção:
+faction-max-name-char: 16
+faction-max-tag-char: 4
+
+## Quantidade Maxima de players em uma Facção
+faction-max-players: 15
+
+## Se Qualquer Player Pode Dominar Um Chunk
+faction-player-dominate-chunk: false
+

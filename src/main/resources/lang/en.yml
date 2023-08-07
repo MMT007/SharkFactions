@@ -1,0 +1,101 @@
+### ------------------------------------------------------
+### [ %plr% Player ] [ %msg% Message ] [ %fac% Faction ]
+### [ %tag% Tag ]          [ %limit% Character Limit ]
+### [ %coords% Coordinates ]
+### ------------------------------------------------------
+
+
+chat-format: "&e&l* <%fac%&e&l> %plr% &a>>&7 %msg%"
+player-join: "§6[Factions]§a %plr% Joined The Server!"
+player-first-join: "§6[Factions]§5 %plr% Joined The Server For The First Time!!"
+player-leave: "§6[Factions]§a %plr% Left The Server"
+player-nonExistent: "§7[Factions] §cO Player Offline or Doesn't Exist."
+player-onNonFullBlock: "§7[Factions] §cYou Need To Be In A Full Block To Do This."
+help-factionChat: "§ePut \".\" On The Beginning Of A Phrase To Chat With Faction"
+
+
+
+cant-perform-action: "§7[Factions] §cYou Don't Have Permission To Do This."
+cant-attack-ally: "§7[Factions] §cYou Can't Attack An Ally!"
+
+
+
+faction-hasNone: "§7[Factions] §cYou Need To Be In A Faction To Do This."
+faction-nonExistent: "§7[Factions] §cThe Faction %fac% Doesn't Exist!"
+faction-alreadyOn: "§7[Factions] §cYou're Already On A Faction!"
+faction-otherAlreadyOn: "§7[Factions] §c%plr% Already Is On A Faction"
+
+faction-joined: "§7[Factions] §aYou Joined The Faction %fac% [ %tag% ]"
+faction-new-member: "§7[Factions] §b%plr% Joined The Faction!"
+faction-invite-denied: "§7[Factions] §cFaction Invite Denied"
+faction-invited: "§7[Factions] §bYou've Been Invited To Join %fac%. Type §a/factions accept §bTo Accept."
+faction-otherInvited: "§7[Factions] §bThe Player %plr% Was Invited To The Faction"
+faction-notInvited: "§7[Factions] §cYou Were Not Invited To Any Faction"
+
+faction-created: "§7[Factions] §aThe Faction %fac% [ %tag% ] Was Created"
+faction-disbanded: "§7[Factions] §cThe Faction Was Disbanded"
+faction-left: "§7[Factions] §cYou Left The Faction"
+faction-notOnFaction: "§7[Factions] §cThis Player Is Not On Your Faction"
+faction-playerKicked: "§7[Factions] §bThe Player %plr% Was Kicked From The Faction"
+faction-kicked: "§7[Factions] §cYou Were Kicked From %fac%"
+
+faction-noHome: "§7[Factions] §cThe Faction Doesn't Have A Home."
+faction-teleporting: "§7[Factions] §bTeleporting..."
+
+faction-allied: "§7[Factions] §cThis Faction Is An Ally!"
+faction-ally: "§7[Factions] §aThe Faction %fac% Is Now Your Ally"
+faction-ally-denied: "§7[Factions] §cAlliance Denied"
+faction-ally-sent: "§7[Factions] §aAn Alliance Invite Was Sent To %fac%"
+faction-ally-invite-received: "§7[Factions] §aAn Alliance Invite From %fac% Was Received."
+
+faction-truce: "§7[Factions] §aYou Made Truce With %fac%!"
+faction-truce-denied: "§7[Factions] §cTruce Denied"
+faction-truce-sent: "§7[Factions] §aTruce Invite Sent!"
+faction-truce-invite-received: "§7[Factions] §bYou Received A Truce Invite From %fac%"
+
+faction-alreadyEnemy: "§7[Factions] §cThis Faction Is Already An Enemy!"
+faction-enemy: "§7[Factions] §4The Faction %fac% Is Now Your Enemy!"
+
+faction-nameLimit: "§7[Factions] §cThe Name §lCan't§r§c Have More Than %limit% Characters."
+faction-tagLimit: "§7[Factions] §cThe Tag §lCan't§r§c Have More Than %limit% Characters."
+
+faction-owner-prefix: "§4[Owner]"
+faction-member-prefix: "§b[Member]"
+
+
+
+chunk-tooFar: "§7[Factions] §cThe Chunk Is Too Far To Be Claimed."
+chunk-claimed: "§7[Factions] §aChunk: %coords% Claimed!"
+chunk-notClaimed: "§7[Factions] §cThis Chunk Wasn't Claimed."
+chunk-unClaimed: "§7[Factions] §aChunk: %coords% Unclaimed!"
+chunk-none: "§7[Factions] §cYour Faction Doesn't Have Claimed Chunks."
+free-zone: "§aWildness"
+home-canPlaceOnClaim: "§7[Factions] §cHomes Can Only Be Placed Inside Your Faction."
+home-placed: "§7[Factions] §aHome Placed Successfully."
+
+
+
+menuItem-create: "§a§lCreate Faction"
+menuItem-teleport: "§b§lTeleport To Home"
+menuItem-leave: "§c§lLeave Faction"
+menuItem-info: "§b§lFaction Info"
+menuItem-enemy: "§c§lEnemy"
+menuItem-ally: "§a§lAlly"
+menuItem-disband: "§c§lDisband Faction"
+menuItem-invite: "§7§lInvite"
+menuItem-truce: "§f§lTruce"
+
+menuItem-getPlayerName-usage: |
+ §bType The Player Name:
+ §b(Example: MMT007_backUP)
+ §cName §lCan't §r§cContain Spaces.
+menuItem-getFactionName-usage: |
+ §bType The Faction Name:
+ §b(Example: DeathStanders)
+ §cName §lCan't §r§cContain Spaces.
+menuItem-createFaction-usage: |
+ §bType The Name And Tag Of Your Faction:
+ §b(Example: DeathStanders DS)
+ §cName §lCan't §r§cContain Spaces.
+
+config-loaded: "§7[Factions] §aConfiguration Loaded Successfully."

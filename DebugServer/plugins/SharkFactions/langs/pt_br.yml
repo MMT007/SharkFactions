@@ -1,0 +1,101 @@
+### ------------------------------------------------------
+### [ %plr% Player ] [ %msg% Menssagem ] [ %fac% Facção ]
+### [ %tag% Tag ] [ %limit% Limite de Caracteres ]
+### [ %coords% Coordenadas ]
+### ------------------------------------------------------
+
+
+chat-format: "&e&l* <%fac%&e&l> %plr% &a>>&7 %msg%"
+player-join: "§6[Factions]§a %plr% Entrou no Servidor!"
+player-first-join: "§6[Factions]§5 %plr% Entrou no Servidor Pela Primeira Vez!!"
+player-leave: "§6[Factions]§a %plr% Saiu do Servidor!"
+player-nonExistent: "§7[Factions] §cO Player Está Offline ou Não Existe."
+player-onNonFullBlock: "§7[Factions] §cVocê Precissa Estar Em Um Bloco Inteiro Para Fazer Isso."
+help-factionChat: "§eColoque \".\" no Começo de Uma Frase Para Falar No Chat Da Facção"
+
+
+
+cant-perform-action: "§7[Factions] §cVocê Não Tem Permissão Para Fazer Isso."
+cant-attack-ally: "§7[Factions] §cVocê Não Pode Atacar Um Aliado!"
+
+
+
+faction-hasNone: "§7[Factions] §cPrecissa Estar Em Uma Facção Para Fazer Isto."
+faction-nonExistent: "§7[Factions] §cA Facção %fac% Não Existe!"
+faction-alreadyOn: "§7[Factions] §cVocê Já Está Em Uma Facção!"
+faction-otherAlreadyOn: "§7[Factions] §c%plr% Já Está Em Uma Facção"
+
+faction-joined: "§7[Factions] §aVocê Entrou na Facção %fac% [ %tag% ]"
+faction-new-member: "§7[Factions] §b%plr% Entrou na Facção!"
+faction-invite-denied: "§7[Factions] §cPedido de Facção Negado"
+faction-invited: "§7[Factions] §bVocê Foi Convidado Para a Facção %fac%. Digite §a/factions accept §bpara aceitar o convite."
+faction-otherInvited: "§7[Factions] §bO Player %plr% Foi Convidado a Facção"
+faction-notInvited: "§7[Factions] §cVocê Não Foi Convidado Para Nenhuma Facção"
+
+faction-created: "§7[Factions] §aFacção %fac% [ %tag% ] Foi Criada"
+faction-disbanded: "§7[Factions] §cA Facção Foi Separada"
+faction-left: "§7[Factions] §cVocê Saiu da Facção"
+faction-notOnFaction: "§7[Factions] §cEste Player Não Está Em Sua Facção"
+faction-playerKicked: "§7[Factions] §bO Player %plr% Foi Retirado Da Facção"
+faction-kicked: "§7[Factions] §cVocê Foi Retirado da Facção %fac%"
+
+faction-noHome: "§7[Factions] §cA Facção Não Tem Uma Home."
+faction-teleporting: "§7[Factions] §bTeleportando..."
+
+faction-allied: "§7[Factions] §cEssa Facção é Aliada!"
+faction-ally: "§7[Factions] §aA Facção %fac% Agora é Sua Aliada"
+faction-ally-denied: "§7[Factions] §cPedido de Aliança Negado"
+faction-ally-sent: "§7[Factions] §aUm Pedido de Aliança Para a Facção %fac% Foi Mandada."
+faction-ally-invite-received: "§7[Factions] §aUm Pedido de Aliança da Facção %fac% Foi Mandada."
+
+faction-truce: "§7[Factions] §aVocê Fez Tratado Páz Com %fac%!"
+faction-truce-denied: "§7[Factions] §cTratado De Páz Recusado"
+faction-truce-sent: "§7[Factions] §aTratado De Páz Enviado!"
+faction-truce-invite-received: "§7[Factions] §bVocê Recebeu Um Tratado De Páz De %fac%"
+
+faction-alreadyEnemy: "§7[Factions] §cEssa Facção já é Sua Inimiga!"
+faction-enemy: "§7[Factions] §4A Facção %fac% Agora é Sua Inimiga!"
+
+faction-nameLimit: "§7[Factions] §cO Nome §lNão§r§c Pode Conter Mais de %limit% Caracteres."
+faction-tagLimit: "§7[Factions] §cA Tag §lNão§r§c Pode Conter Mais de %limit% Caracteres."
+
+faction-owner-prefix: "§4[Lider]"
+faction-member-prefix: "§b[Membro]"
+
+
+
+chunk-tooFar: "§7[Factions] §cO Chunk Está Muito Longe Para Ser Dominado."
+chunk-claimed: "§7[Factions] §aChunk Em: %coords% Dominado!"
+chunk-notClaimed: "§7[Factions] §cEsse Chunk Não Foi Dominado."
+chunk-unClaimed: "§7[Factions] §aChunk em: %coords% Abandonado!"
+chunk-none: "§7[Factions] §cSua Facção Não Tem Chunks Dominados."
+free-zone: "§aZona Livre"
+home-canPlaceOnClaim: "§7[Factions] §cHomes Podem Apenas Ser Colocadas Dentro De Sua Base."
+home-placed: "§7[Factions] §aHome Colocada Com Sucesso."
+
+
+
+menuItem-create: "§a§lCriar Facção"
+menuItem-teleport: "§b§lTeleportar Para Home da Facção"
+menuItem-leave: "§c§lSair da Facção"
+menuItem-info: "§b§lInfo Sobre Facção"
+menuItem-enemy: "§c§lInimigo"
+menuItem-ally: "§a§lAliado"
+menuItem-disband: "§c§lDezfzer Facção"
+menuItem-invite: "§7§lConvidar"
+menuItem-truce: "§f§lTratado De Páz"
+
+menuItem-getPlayerName-usage: |
+ §bDigite O Nome do Player:
+ §b(Exemplo: MMT007_backUP)
+ §cNome §lNão §r§cPode Conter Espaços.
+menuItem-getFactionName-usage: |
+  §bDigite O Nome da Facçção:
+  §b(Exemplo: DeathStranders)
+  §cNome §lNão §r§cPode Conter Espaços.
+menuItem-createFaction-usage: |
+  §bDigite O Nome E Tag de Sua Facçção:
+  §b(Exemplo: DeathStranders DS)
+  §cNome §lNão §r§cPode Conter Espaços.
+
+config-loaded: "§7[Factions] §aConfigurações Recarregadas Com Sucesso."
