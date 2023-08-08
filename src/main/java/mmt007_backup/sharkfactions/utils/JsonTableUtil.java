@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-import mmt007_backup.sharkfactions.commands.SubCommands.listSubCommand;
 import mmt007_backup.sharkfactions.lang.languageUtil;
 import mmt007_backup.sharkfactions.models.*;
 import org.bukkit.Bukkit;
@@ -40,7 +39,7 @@ public class JsonTableUtil {
     }
 
     public static Players getPlayer(String id) {
-        Players player = new Players("","",Invite.getEmpty());
+        Players player = Players.getEmpty();
         for(Players plrq : players){
             if(Objects.equals(plrq.getUuid(), id)){
                 player = plrq;
@@ -138,17 +137,7 @@ public class JsonTableUtil {
     }
 
     public static Factions getFaction(String id) {
-        Factions fac = new Factions(
-                "",
-                "",
-                "",
-                "",
-                0,
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                Invite.getEmpty(),
-                new FLocation(0.0,0.0,0.0, ""));
+        Factions fac = Factions.getEmpty();
         for(Factions f : factions){
             if(Objects.equals(f.getUuid(), id)){
                 fac = f;
@@ -159,6 +148,16 @@ public class JsonTableUtil {
 
     public static Factions getFactionByPlayer(Player plr) {
         return getFaction(getPlayer(plr.getUniqueId().toString()).getFuuid());
+    }
+
+    public static Factions getFactionByName(String name){
+        for(Factions f : factions){
+            if(f.getName().equalsIgnoreCase(name)){
+                return f;
+            }
+        }
+
+        return Factions.getEmpty();
     }
 
     public static void updateFaction(Factions fac) {
@@ -184,6 +183,7 @@ public class JsonTableUtil {
         for (Factions faction : factions) {
             if (Objects.equals(faction.getUuid(), id)) {
                 factions.remove(faction);
+                listSubCommandConsts.loadPages();
                 saveFactionTable();
                 break;
             }

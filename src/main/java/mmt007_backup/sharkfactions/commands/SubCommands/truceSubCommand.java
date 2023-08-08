@@ -31,33 +31,39 @@ public class truceSubCommand extends SubCommand {
 
     @Override
     public void perform(Player plr, String[] args) {
+        //--Checks If Args Only Contain 1 String [returns syntax if not]
         if(args.length != 1){
             plr.sendMessage("§7[Factions] /f" + getSyntax());
             return;
         }
 
+        //--Initializes Player's Faction And The Faction They Want The Truce With
         Factions fac = JsonTableUtil.getFactionByPlayer(plr);
-        Factions trucedFac = null;
+        Factions trucedFac = JsonTableUtil.getFactionByName(args[0]);
 
-        for(Factions f : JsonTableUtil.factions){
-            if (f.getName().equalsIgnoreCase(args[0])){
-                trucedFac = f;
-                break;
-            }
-        }
 
-        if(trucedFac == null){
+        //--If The Faction To Have The Truce With Is Null, Send Message And Return.
+        if(trucedFac.getUuid().equals("")){
             plr.sendMessage(languageUtil.getMessage("faction-nonExistent")
                     .replaceAll("%fac%",args[0]));
             return;
-        }if(!plr.getUniqueId().toString().equals(fac.getOwner())){
-            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
         }
 
+        //--Checks If Player Has Owner Permission/ Faction.
+        if(!plr.getUniqueId().toString().equals(fac.getOwner())){
+            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+            return;
+        }else if(fac.getUuid().equals("")){
+            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            return;
+        }
+
+        //--Sets Faction Invite And Checks For The Other Faction Owner
         trucedFac.setInvite(new Invite(fac.getUuid(), InviteType.TRUCE));
         Player trucedFacOwner =
                 Utilitis.getBukkitPlayer(JsonTableUtil.getPlayer(trucedFac.getOwner()));
 
+        //--Checks If Owner Is Online And If Yes, Send Truce Message
         if(trucedFacOwner != null){
             trucedFacOwner.sendMessage(languageUtil.getMessage("faction-truce-invite-received")
                     .replaceAll("%fac%",fac.getName()));

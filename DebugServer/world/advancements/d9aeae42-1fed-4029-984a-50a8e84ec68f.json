@@ -1,9 +1,11 @@
 {
   "minecraft:adventure/adventuring_time": {
     "criteria": {
+      "minecraft:cold_ocean": "2023-08-07 18:34:28 -0300",
       "minecraft:forest": "2023-08-05 20:04:29 -0300",
       "minecraft:deep_cold_ocean": "2023-08-05 21:49:07 -0300",
-      "minecraft:beach": "2023-08-05 21:48:45 -0300"
+      "minecraft:beach": "2023-08-05 21:48:45 -0300",
+      "minecraft:river": "2023-08-07 18:34:06 -0300"
     },
     "done": false
   },

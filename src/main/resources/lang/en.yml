@@ -31,6 +31,7 @@ faction-invite-denied: "§7[Factions] §cFaction Invite Denied"
 faction-invited: "§7[Factions] §bYou've Been Invited To Join %fac%. Type §a/factions accept §bTo Accept."
 faction-otherInvited: "§7[Factions] §bThe Player %plr% Was Invited To The Faction"
 faction-notInvited: "§7[Factions] §cYou Were Not Invited To Any Faction"
+faction-noFactionInvites: "§7[Factions] §cNo Invites Were Sent From Any Faction"
 
 faction-created: "§7[Factions] §aThe Faction %fac% [ %tag% ] Was Created"
 faction-disbanded: "§7[Factions] §cThe Faction Was Disbanded"

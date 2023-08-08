@@ -35,6 +35,7 @@ public class claimSubCommand extends SubCommand {
     public void perform(Player plr, String[] args) {
         Chunk chunk = Objects.requireNonNull(plr.getLocation().getChunk());
 
+        //-- checks If Player Is Faction Owner / Has A Faction
         Factions fac = JsonTableUtil.getFactionByPlayer(plr);
         if (!Objects.equals(plr.getUniqueId().toString(), fac.getOwner()) && !this.main.getConfig().getBoolean("faction-player-dominate-chunk")) {
             plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
@@ -45,20 +46,24 @@ public class claimSubCommand extends SubCommand {
             return;
         }
 
-
+        //--Sets Variable For The New Claimed Chunk
         int chnkX = chunk.getX();
         int chnkZ = chunk.getZ();
 
         ArrayList<FChunk> ch = fac.getChunks();
         FChunk newChunk = new FChunk(chnkX, chnkZ, chunk.getWorld().getName());
 
+        //--Checks If Faction Has Already Claimed Chunks
+        //--Then Proceeds To Check If Chunk Is In The Same World As The First OR 1 Of The...
+        //--Surrounding Chunks Is A Chunk From The Faction.
         if (ch.size() > 0) {
-            if(getSurroundingChunks(newChunk,ch) || !Objects.equals(newChunk.getWorld(), plr.getWorld().getName())){
+            if(!getSurroundingChunks(newChunk,ch) || !Objects.equals(newChunk.getWorld(),ch.get(0).getWorld())){
                 plr.sendMessage(languageUtil.getMessage("chunk-tooFar"));
                 return;
             }
         }
 
+        //--Adds New Chunk To The Faction And Displays Message
         ch.add(newChunk);
         fac.setChunks(ch);
         JsonTableUtil.updateFaction(fac);
@@ -67,13 +72,21 @@ public class claimSubCommand extends SubCommand {
     }
 
     private boolean getSurroundingChunks(FChunk chunk, ArrayList<FChunk> factionChunks){
+        //--Loops On A 3x3 Square With {chunk} Being The Center
         for (int x = -1; x < 2; x++){
             for (int y = -1; y < 2; y++){
+
+                //--Truth Table For Checking If {X} And {Y} Are In The...
+                //--Four Main Cardinal Directions.
+                if((x == 0) ^ (y == 0)){continue;}
+
+                //-- Creates Variable For The Surrounding Chunk
                 FChunk neighbourChunk = new FChunk(
                         chunk.getX() + x,
                         chunk.getY() + y,
                         chunk.getWorld());
 
+                //--Checks If The Surrounding Chunk Is Claimed By Player's Faction
                 if(factionChunks.contains(neighbourChunk)){return true;}
             }
         }

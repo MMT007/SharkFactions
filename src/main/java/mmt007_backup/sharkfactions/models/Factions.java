@@ -102,4 +102,13 @@ public class Factions {
     public void setBaseLocation(FLocation baseLocation) {
         this.baseLocation = baseLocation;
     }
+
+    public static Factions getEmpty(){
+        return new Factions(
+                "","","","",
+                0,new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
+                Invite.getEmpty(),FLocation.getEmpty()
+        );
+    }
 }

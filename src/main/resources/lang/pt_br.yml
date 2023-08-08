@@ -31,6 +31,7 @@ faction-invite-denied: "§7[Factions] §cPedido de Facção Negado"
 faction-invited: "§7[Factions] §bVocê Foi Convidado Para a Facção %fac%. Digite §a/factions accept §bpara aceitar o convite."
 faction-otherInvited: "§7[Factions] §bO Player %plr% Foi Convidado a Facção"
 faction-notInvited: "§7[Factions] §cVocê Não Foi Convidado Para Nenhuma Facção"
+faction-noFactionInvites: "§7[Factions] §cNenhum Convite Mandado De Nenhuma Facção"
 
 faction-created: "§7[Factions] §aFacção %fac% [ %tag% ] Foi Criada"
 faction-disbanded: "§7[Factions] §cA Facção Foi Separada"

@@ -36,4 +36,8 @@ public class Players {
         this.invite = inviteUUID;
     }
 
+    public static Players getEmpty(){
+        return new Players("","",Invite.getEmpty());
+    }
+
 }

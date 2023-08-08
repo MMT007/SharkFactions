@@ -44,4 +44,8 @@ public class FLocation {
     public void setWorld(String world) {
         this.world = world;
     }
+
+    public static FLocation getEmpty(){
+        return new FLocation(0d,0d,0d,"");
+    }
 }
