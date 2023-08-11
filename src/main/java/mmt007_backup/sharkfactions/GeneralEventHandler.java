@@ -168,8 +168,8 @@ public class GeneralEventHandler implements Listener {
         Location to = e.getTo();
 
         if((from.getBlockX() >> 4) != (to.getBlockX() >> 4) || (from.getBlockZ() >> 4) != (to.getBlockZ() >> 4)){
-            FChunk lastChunk = new FChunk(from.getChunk().getX(),from.getChunk().getZ(),from.getWorld().getName());
-            FChunk currentChunk = new FChunk(to.getChunk().getX(), to.getChunk().getZ(), to.getChunk().getWorld().getName());
+            FChunk lastChunk = FChunk.fromBukkit(from.getChunk());
+            FChunk currentChunk = FChunk.fromBukkit(to.getChunk());
             String lastChunkDominance = JsonTableUtil.chunkInfo(plr, lastChunk);
             String currentChunkDominance = JsonTableUtil.chunkInfo(plr, currentChunk);
 

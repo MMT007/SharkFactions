@@ -12,6 +12,7 @@ plugin-lang: pt_br
 invasion-blocks:
   - 'ladder'
 
+
 ### Config de Facção:
 ## Permite Que O Player Interaja Com Um Mob De Base Inimiga/Neutra
 faction-player-interact-entity: false
@@ -26,3 +27,5 @@ faction-max-players: 15
 ## Se Qualquer Player Pode Dominar Um Chunk
 faction-player-dominate-chunk: false
 
+## Tamanho Do Mapa De Facção (3x3, 5x5, 10x10, etc...)
+faction-map-size: 11

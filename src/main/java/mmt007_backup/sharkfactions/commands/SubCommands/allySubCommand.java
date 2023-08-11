@@ -31,43 +31,48 @@ public class allySubCommand extends SubCommand {
 
     @Override
     public void perform(Player plr, String[] args) {
-
+        //--Checks If There's Only One Command Argument
         if(args.length != 1) {
             plr.sendMessage("§7[Factions] §b/f " + getSyntax());
             return;
         }
-        String facn = args[0];
-        Factions PFac = JsonTableUtil.getFaction(JsonTableUtil.getPlayer(plr.getUniqueId().toString()).getFuuid());
-        if(Objects.equals(PFac.getUuid(), "")){
+
+        //--Initializes Factions Variables
+        Factions fac = JsonTableUtil.getFactionByName(args[0]);
+        Factions PFac = JsonTableUtil.getFactionByPlayer(plr);
+
+        //--Check If Player Has a Factions / Owner Permissions
+        //--Also Checks If Faction Given Is Real
+        if(PFac.getName().equals("")){
             plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
             return;
         }
-        if (!Objects.equals(PFac.getOwner(), plr.getUniqueId().toString())) {
+
+        if (!PFac.getOwner().equalsIgnoreCase(plr.getUniqueId().toString())) {
             plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
-        } else {
-            Factions fac = null;
+            return;
+        }
 
-            for (Factions f : JsonTableUtil.factions) {
-                if (Objects.equals(f.getName().toLowerCase(), facn.toLowerCase())) {
-                    fac = f;
-                    break;
-                }
-            }
+        if (fac.getName().equals("")) {
+            plr.sendMessage(languageUtil.getMessage("faction-nonExistent")
+                    .replaceAll("%fac%", args[0]));
+            return;
+        }
 
-            if (fac == null) {
-                plr.sendMessage(languageUtil.getMessage("faction-nonExistent").replaceAll("%fac%", facn));
-            } else {
-                fac.setInvite(new Invite(PFac.getUuid(), InviteType.ALLY));
-                JsonTableUtil.updateFaction(fac);
-                plr.sendMessage(languageUtil.getMessage("faction-ally-sent").replaceAll("%fac%",facn));
+        //--Creates Invite And Updates Faction
+        fac.setInvite(new Invite(PFac.getUuid(), InviteType.ALLY));
+        JsonTableUtil.updateFaction(fac);
 
-                Player faconwer = Utilitis.getBukkitPlayer(JsonTableUtil.getPlayer(fac.getOwner()));
+        //--Sends Ally Invite Sent Message
+        plr.sendMessage(languageUtil.getMessage("faction-ally-sent")
+                .replaceAll("%fac%", fac.getName()));
 
-                if (faconwer != null) {
-                    faconwer.sendMessage(languageUtil.getMessage("faction-ally-invite-received")
-                            .replaceAll("%fac%",PFac.getName()));
-                }
-            }
+        //-- Gets Other Factions Owner And Sends The Invite Received Message
+        Player facOwner = Utilitis.getBukkitPlayer(JsonTableUtil.getPlayer(fac.getOwner()));
+
+        if (facOwner != null) {
+            facOwner.sendMessage(languageUtil.getMessage("faction-ally-invite-received")
+                    .replaceAll("%fac%",PFac.getName()));
         }
     }
 }

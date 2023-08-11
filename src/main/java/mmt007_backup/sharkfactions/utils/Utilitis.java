@@ -7,6 +7,7 @@ import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -20,5 +21,17 @@ public class Utilitis {
     }
     public static OfflinePlayer getOfflineBukkitPlayer(Players plr){
         return Bukkit.getOfflinePlayer(UUID.fromString(plr.getUuid()));
+    }
+
+    public static boolean getIfChunksIsOnArray(ArrayList<FChunk> chunkA, FChunk chunk){
+        for(FChunk chunkIA : chunkA){
+            if((chunkIA.getX() == chunk.getX()) &&
+                (chunkIA.getY() == chunk.getY()) &&
+                    chunkIA.getWorld().equalsIgnoreCase(chunk.getWorld())){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

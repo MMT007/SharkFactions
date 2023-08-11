@@ -6,6 +6,7 @@ import mmt007_backup.sharkfactions.lang.languageUtil;
 import mmt007_backup.sharkfactions.models.FChunk;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -78,16 +79,19 @@ public class claimSubCommand extends SubCommand {
 
                 //--Truth Table For Checking If {X} And {Y} Are In The...
                 //--Four Main Cardinal Directions.
-                if((x == 0) ^ (y == 0)){continue;}
+                if((x == 0) ^ (y == 0)) {
 
-                //-- Creates Variable For The Surrounding Chunk
-                FChunk neighbourChunk = new FChunk(
-                        chunk.getX() + x,
-                        chunk.getY() + y,
-                        chunk.getWorld());
+                    //-- Creates Variable For The Surrounding Chunk
+                    FChunk neighbourChunk = new FChunk(
+                            chunk.getX() + x,
+                            chunk.getY() + y,
+                            chunk.getWorld());
 
-                //--Checks If The Surrounding Chunk Is Claimed By Player's Faction
-                if(factionChunks.contains(neighbourChunk)){return true;}
+                    //--Checks If The Surrounding Chunk Is Claimed By Player's Faction
+                    if (factionChunks.contains(neighbourChunk)) return true;
+
+                    Bukkit.getLogger().info(x + " " + y);
+                }
             }
         }
 

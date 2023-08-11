@@ -5,6 +5,8 @@ import mmt007_backup.sharkfactions.lang.languageUtil;
 import mmt007_backup.sharkfactions.models.FChunk;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
+import mmt007_backup.sharkfactions.utils.Utilitis;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 
@@ -63,8 +65,10 @@ public class unclaimSubCommand extends SubCommand {
             return;
         }
 
+
         //--Removes Chunk From Faction Claims, Updates Faction And Sends Message
-        ch.remove(chunkToBeRemoved);
+        Bukkit.getLogger().info("DEBUG:: " + ch.remove(chunkToBeRemoved));
+
         fac.setChunks(ch);
 
         JsonTableUtil.updateFaction(fac);

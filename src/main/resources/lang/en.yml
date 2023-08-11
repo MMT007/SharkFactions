@@ -67,7 +67,7 @@ faction-member-prefix: "§b[Member]"
 
 chunk-tooFar: "§7[Factions] §cThe Chunk Is Too Far To Be Claimed."
 chunk-claimed: "§7[Factions] §aChunk: %coords% Claimed!"
-chunk-notClaimed: "§7[Factions] §cThis Chunk Wasn't Claimed."
+chunk-notClaimed: "§7[Factions] §cThis Chunk Isn't Claimed."
 chunk-unClaimed: "§7[Factions] §aChunk: %coords% Unclaimed!"
 chunk-none: "§7[Factions] §cYour Faction Doesn't Have Claimed Chunks."
 free-zone: "§aWildness"

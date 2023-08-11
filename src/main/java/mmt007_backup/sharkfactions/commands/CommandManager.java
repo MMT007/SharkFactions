@@ -35,6 +35,7 @@ public class CommandManager implements TabExecutor {
         subCommands.add(new sethomeSubCommand());
         subCommands.add(new unclaimSubCommand());
         subCommands.add(new truceSubCommand());
+        subCommands.add(new mapSubCommand());
     }
 
     @Override

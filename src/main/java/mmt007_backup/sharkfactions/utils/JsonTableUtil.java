@@ -107,14 +107,14 @@ public class JsonTableUtil {
             }
 
             for(FChunk c : PFac.getChunks()){
-                if (c.getX() == chk.getX() && c.getY() == chk.getY() && Objects.equals(c.getWorld(), chk.getWorld())) {
+                if (c.equals(chk)) {
                     colorcode = "§a";
                     break;
                 }
             }
 
             for (FChunk c : fac.getChunks()) {
-                if (c.getX() == chk.getX() && c.getY() == chk.getY() && Objects.equals(c.getWorld(), chk.getWorld())) {
+                if (c.equals(chk)) {
                     String facname = fac.getName();
                     return colorcode + facname + " [" + fac.getTag().toUpperCase() + "]";
                 }
@@ -138,11 +138,14 @@ public class JsonTableUtil {
 
     public static Factions getFaction(String id) {
         Factions fac = Factions.getEmpty();
+
         for(Factions f : factions){
             if(Objects.equals(f.getUuid(), id)){
                 fac = f;
+                break;
             }
         }
+
         return fac;
     }
 
