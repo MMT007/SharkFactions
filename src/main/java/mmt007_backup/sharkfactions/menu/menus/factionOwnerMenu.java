@@ -1,11 +1,11 @@
-package mmt007_backup.sharkfactions.menu.Menus;
+package mmt007_backup.sharkfactions.menu.menus;
 
-import mmt007_backup.sharkfactions.commands.SubCommands.homeSubCommand;
-import mmt007_backup.sharkfactions.commands.SubCommands.leaveSubCommand;
+import mmt007_backup.sharkfactions.commands.subCommands.homeSubCommand;
+import mmt007_backup.sharkfactions.commands.subCommands.leaveSubCommand;
 import mmt007_backup.sharkfactions.lang.languageUtil;
 import mmt007_backup.sharkfactions.menu.Menu;
 import mmt007_backup.sharkfactions.menu.MenuMngr;
-import mmt007_backup.sharkfactions.menu.Utils.MenuCreationUtil;
+import mmt007_backup.sharkfactions.menu.utils.MenuCreationUtil;
 import mmt007_backup.sharkfactions.menu.models.InputType;
 import mmt007_backup.sharkfactions.menu.models.PlayerMenuUtility;
 import mmt007_backup.sharkfactions.menu.models.playerOnInput;

@@ -1,15 +1,13 @@
 package mmt007_backup.sharkfactions.utils;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
+import java.io.*;
+import java.lang.reflect.Type;
+import java.util.*;
+
+import com.google.gson.GsonBuilder;
 import mmt007_backup.sharkfactions.lang.languageUtil;
 import mmt007_backup.sharkfactions.models.*;
 import org.bukkit.Bukkit;
@@ -19,10 +17,16 @@ import mmt007_backup.sharkfactions.SharkFMain;
 public class JsonTableUtil {
     private static final SharkFMain SHARK_F_MAIN = SharkFMain.getPlugin();
     public static ArrayList<Players> players = new ArrayList<>();
-    public static ArrayList<Factions> factions = new ArrayList<>();
+
+    public static Map<Integer, Factions> factions = new HashMap<>();
+    public static Map<String,Integer> facNameMap = new HashMap<>();
+    public static Map<String,Integer> facUUIDMap = new HashMap<>();
+
+    public static HashMap<String, Integer> playerIndex = new HashMap<>();
 
     public JsonTableUtil() {
     }
+
 
     public static void createPlayer(Player plr) {
         for(Players ep : players) {
@@ -45,7 +49,11 @@ public class JsonTableUtil {
                 player = plrq;
             }
         }
+
         return player;
+    }
+    public static Players getPlayer(Player plr){
+        return getPlayer(plr.getUniqueId().toString());
     }
 
     public static void updatePlayer(Players plr) {
@@ -54,28 +62,39 @@ public class JsonTableUtil {
                 player.setFuuid(plr.getFuuid());
                 player.setInvite(plr.getInvite());
                 savePlayerTable();
+                break;
             }
         }
-
     }
 
     public static ArrayList<Players> getPlayersInFaction(String id) {
         ArrayList<Players> plrs = new ArrayList<>();
+
         for(Players plr : players){
             if(Objects.equals(plr.getFuuid(), id)){
                 plrs.add(plr);
             }
         }
+
         return plrs;
     }
 
-    public static int isChunkFromPlayerFactions(Player player, FChunk chunk) {
-        Players plr = getPlayer(player.getUniqueId().toString());
 
-        for (Factions fac : factions) {
+
+    public static int isChunkFromPlayerFactions(Player player, FChunk chunk) {
+        Factions f = getFaction(player);
+
+        for (Factions fac : factions.values()) {
             for (FChunk chk : fac.getChunks()) {
                 if (chunk.getX() == chk.getX() && chunk.getY() == chk.getY()) {
-                    return fac.getUuid().equals(plr.getFuuid()) ? 1 : -1;
+                    if(f.getUuid().equals(fac.getUuid()))
+                        return 1;
+                    if(f.getAllys().contains(fac.getUuid()))
+                        return 2;
+                    if(f.getEnemies().contains(fac.getUuid()))
+                        return -1;
+
+                    return 3;
                 }
             }
         }
@@ -84,7 +103,7 @@ public class JsonTableUtil {
     }
 
     public static String chunkInfo(Player plr, FChunk chk) {
-        Factions PFac = getFactionByPlayer(plr);
+        Factions PFac = getFaction(plr);
 
         if(chk == null){
             return "§eNull";
@@ -92,7 +111,7 @@ public class JsonTableUtil {
 
         String colorcode = "§7";
 
-        for (Factions fac : factions) {
+        for (Factions fac : factions.values()) {
             for(String id : PFac.getEnemies()){
                 if (Objects.equals(fac.getUuid(), id)) {
                     colorcode = "§c";
@@ -124,75 +143,57 @@ public class JsonTableUtil {
         return languageUtil.getMessage("free-zone");
     }
 
-    public static void createFaction(Factions fac) {
-        for(Factions f : factions) {
-            if(Objects.equals(f.getUuid(), fac.getUuid())){
-                return;
-            }
-        }
 
-        factions.add(fac);
+
+    public static void createFaction(Factions fac) {
+        if(!getFaction(fac.getUuid()).getUuid().equals("")){return;}
+
+        factions.put(
+                fac.getUuid().hashCode(),
+                fac
+        );
+
         saveFactionTable();
         listSubCommandConsts.loadPages();
     }
 
-    public static Factions getFaction(String id) {
-        Factions fac = Factions.getEmpty();
+    public static Factions getFaction(String id_name) {
+        Integer hash = facUUIDMap.get(id_name) == null ?
+                facNameMap.get(id_name) : facUUIDMap.get(id_name);
 
-        for(Factions f : factions){
-            if(Objects.equals(f.getUuid(), id)){
-                fac = f;
-                break;
-            }
-        }
+        if(factions.get(hash) == null){return Factions.getEmpty();}
 
-        return fac;
+        return factions.get(hash);
     }
-
-    public static Factions getFactionByPlayer(Player plr) {
+    public static Factions getFaction(Player plr){
         return getFaction(getPlayer(plr.getUniqueId().toString()).getFuuid());
-    }
-
-    public static Factions getFactionByName(String name){
-        for(Factions f : factions){
-            if(f.getName().equalsIgnoreCase(name)){
-                return f;
-            }
-        }
-
-        return Factions.getEmpty();
     }
 
     public static void updateFaction(Factions fac) {
 
         if (fac == null){return;}
 
-        for (Factions faction : factions) {
-            if (Objects.equals(faction.getUuid(), fac.getUuid())) {
-                faction.setOwner(fac.getOwner());
-                faction.setName(fac.getName());
-                faction.setTag(fac.getTag());
-                faction.setMembers(fac.getMembers());
-                faction.setChunks(fac.getChunks());
-                saveFactionTable();
-                break;
-            }
-        }
+        if(getFaction(fac.getUuid()).getUuid().equals("")){return;}
+
+        int key = facUUIDMap.get(fac.getUuid());
+        factions.replace(key,fac);
+
+        saveFactionTable();
 
     }
 
     public static void deleteFaction(String id) {
+        Factions fac = getFaction(id);
 
-        for (Factions faction : factions) {
-            if (Objects.equals(faction.getUuid(), id)) {
-                factions.remove(faction);
-                listSubCommandConsts.loadPages();
-                saveFactionTable();
-                break;
-            }
-        }
+        if(fac.getUuid().equals("")){return;}
 
+        factions.remove(facUUIDMap.get(fac.getUuid()));
+
+        listSubCommandConsts.loadPages();
+        saveFactionTable();
     }
+
+
 
     public static void savePlayerTable() {
         Gson gson = new Gson();
@@ -213,16 +214,23 @@ public class JsonTableUtil {
     }
 
     public static void saveFactionTable() {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         File file = new File(SHARK_F_MAIN.getDataFolder().getAbsolutePath() + "/FactionTable.json");
         file.getParentFile().mkdir();
 
         try {
             file.createNewFile();
             Writer writer = new FileWriter(file, false);
-            gson.toJson(factions, writer);
+
+            Type type = new TypeToken<Map<Tuple<String,String>,Factions>>(){}.getType();
+            Map<String,Factions> temp = new HashMap<>();
+            factions.forEach((k,v) -> temp.put(k.toString(),v));
+
+            gson.toJson(temp,type,writer);
+
             writer.flush();
             writer.close();
+
             Bukkit.getLogger().info("[[ SFactions ]] Database Faction Salva Com Sucesso");
         } catch (IOException e) {
             Bukkit.getLogger().warning("[[ SFactions ]] Não Foi Possivel Escrever No Arquivo JSON.");
@@ -239,21 +247,31 @@ public class JsonTableUtil {
             try {
                 reader = new FileReader(pfile);
                 Players[] p = gson.fromJson(reader, Players[].class);
-                players = new ArrayList(Arrays.asList(p));
+                players = new ArrayList<>(Arrays.asList(p));
                 Bukkit.getLogger().info("[[ SFactions ]] Database Player Carregada.");
-            } catch (IOException var6) {
+            } catch (Exception e) {
                 Bukkit.getLogger().warning("[[ SFactions ]] Não Foi Passivel Ler Arquivo PlayerTable.JSON.");
+                Bukkit.getLogger().warning("[[ SFactions ]] " + e.getCause() + " " + Arrays.toString(e.getStackTrace()));
             }
         }
 
         if (ffile.exists()) {
             try {
                 reader = new FileReader(ffile);
-                Factions[] f = gson.fromJson(reader, Factions[].class);
-                factions = new ArrayList(Arrays.asList(f));
+
+                Type type = new TypeToken<Map<Integer,Factions>>(){}.getType();
+                Map<Integer,Factions> temp = gson.fromJson(reader, type);
+
+                temp.forEach((k,v) -> {
+                    facUUIDMap.put(v.getUuid(),k);
+                    facNameMap.put(v.getName(),k);
+                    factions.put(k, v);
+                });
+
                 Bukkit.getLogger().info("[[ SFactions ]] Database Factions Carregada.");
-            } catch (IOException var5) {
-                Bukkit.getLogger().warning("[[ SFactions ]] Não Foi Passivel Ler Arquivo FActionTable.JSON.");
+            } catch (Exception e) {
+                Bukkit.getLogger().warning("[[ SFactions ]] Não Foi Passivel Ler Arquivo FactionTable.JSON.");
+                Bukkit.getLogger().warning("[[ SFactions ]] " + e.getCause() + " " + Arrays.toString(e.getStackTrace()));
             }
         }
 

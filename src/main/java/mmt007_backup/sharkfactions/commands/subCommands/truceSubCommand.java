@@ -1,4 +1,4 @@
-package mmt007_backup.sharkfactions.commands.SubCommands;
+package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
 import mmt007_backup.sharkfactions.lang.languageUtil;
@@ -7,10 +7,7 @@ import mmt007_backup.sharkfactions.models.Invite;
 import mmt007_backup.sharkfactions.models.InviteType;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
 import mmt007_backup.sharkfactions.utils.Utilitis;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 
 public class truceSubCommand extends SubCommand {
 
@@ -38,8 +35,8 @@ public class truceSubCommand extends SubCommand {
         }
 
         //--Initializes Player's Faction And The Faction They Want The Truce With
-        Factions fac = JsonTableUtil.getFactionByPlayer(plr);
-        Factions trucedFac = JsonTableUtil.getFactionByName(args[0]);
+        Factions fac = JsonTableUtil.getFaction(plr);
+        Factions trucedFac = JsonTableUtil.getFaction(args[0]);
 
 
         //--If The Faction To Have The Truce With Is Null, Send Message And Return.
@@ -50,10 +47,12 @@ public class truceSubCommand extends SubCommand {
         }
 
         //--Checks If Player Has Owner Permission/ Faction.
-        if(!plr.getUniqueId().toString().equals(fac.getOwner())){
+        if(!Utilitis.isFactionOwner(plr)){
             plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
             return;
-        }else if(fac.getUuid().equals("")){
+        }
+
+        if(fac.getUuid().equals("")){
             plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
             return;
         }

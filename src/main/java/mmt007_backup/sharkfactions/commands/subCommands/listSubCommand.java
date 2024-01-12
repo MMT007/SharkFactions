@@ -1,11 +1,6 @@
-package mmt007_backup.sharkfactions.commands.SubCommands;
+package mmt007_backup.sharkfactions.commands.subCommands;
 
-import mmt007_backup.sharkfactions.commands.CommandManager;
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
-import mmt007_backup.sharkfactions.models.Factions;
-import mmt007_backup.sharkfactions.utils.JsonTableUtil;
-import mmt007_backup.sharkfactions.utils.helpSubCommandConsts;
 import mmt007_backup.sharkfactions.utils.listSubCommandConsts;
 import org.bukkit.entity.Player;
 
@@ -33,12 +28,12 @@ public class listSubCommand extends SubCommand {
         if(args.length > 0){
             if(isNumeric(args[0])) {
                 plr.sendMessage(getMessage(Integer.parseInt(args[0])));
-            }else {
-                plr.sendMessage(getMessage(1));
+                return;
             }
-        }else{
-            plr.sendMessage(getMessage(1));
         }
+
+        plr.sendMessage(getMessage(1));
+
     }
 
     private static String getMessage(int pageNum){

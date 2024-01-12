@@ -1,4 +1,4 @@
-package mmt007_backup.sharkfactions.commands.SubCommands;
+package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.SharkFMain;
 import mmt007_backup.sharkfactions.commands.SubCommand;
@@ -6,6 +6,7 @@ import mmt007_backup.sharkfactions.lang.languageUtil;
 import mmt007_backup.sharkfactions.models.FChunk;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
+import mmt007_backup.sharkfactions.utils.Utilitis;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
@@ -37,13 +38,15 @@ public class claimSubCommand extends SubCommand {
         Chunk chunk = Objects.requireNonNull(plr.getLocation().getChunk());
 
         //-- checks If Player Is Faction Owner / Has A Faction
-        Factions fac = JsonTableUtil.getFactionByPlayer(plr);
-        if (!Objects.equals(plr.getUniqueId().toString(), fac.getOwner()) && !this.main.getConfig().getBoolean("faction-player-dominate-chunk")) {
-            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+        Factions fac = JsonTableUtil.getFaction(plr);
+
+        if (fac.getUuid().equals("")) {
+            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
             return;
         }
-        if (Objects.equals(JsonTableUtil.getPlayer(plr.getUniqueId().toString()).getFuuid(), "")) {
-            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+
+        if (!Utilitis.isFactionOwner(plr) && !this.main.getConfig().getBoolean("faction-player-dominate-chunk")) {
+            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
             return;
         }
 

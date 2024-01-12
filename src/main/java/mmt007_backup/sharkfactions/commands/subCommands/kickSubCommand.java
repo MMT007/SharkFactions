@@ -1,4 +1,4 @@
-package mmt007_backup.sharkfactions.commands.SubCommands;
+package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
 import mmt007_backup.sharkfactions.lang.languageUtil;
@@ -7,6 +7,7 @@ import mmt007_backup.sharkfactions.models.Invite;
 import mmt007_backup.sharkfactions.models.InviteType;
 import mmt007_backup.sharkfactions.models.Players;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
+import mmt007_backup.sharkfactions.utils.Utilitis;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -34,17 +35,31 @@ public class kickSubCommand extends SubCommand {
             plr.sendMessage("§7[Factions] §b/f "+ getSyntax());
             return;
         }
+
         Player plr2 = Bukkit.getServer().getPlayerExact(args[0]);
+        Factions fac = JsonTableUtil.getFaction(plr);
+
         if (plr2 == null) {
             plr.sendMessage(languageUtil.getMessage("player-nonExistent"));
-        } else if (Objects.equals(JsonTableUtil.getPlayer(plr.getUniqueId().toString()).getFuuid(), "")) {
-            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
-        } else {
-            if (!Objects.equals(JsonTableUtil.getPlayer(plr2.getUniqueId().toString()).getFuuid(), "")) {
-                plr.sendMessage(languageUtil.getMessage("faction-notOnFaction"));
-            }
+            return;
+        }
 
-            Factions fac = JsonTableUtil.getFactionByPlayer(plr);
+        if(!Utilitis.isFactionOwner(plr)){
+            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+        }
+
+        if (!Objects.equals(JsonTableUtil.getPlayer(plr2.getUniqueId().toString()).getFuuid(), fac.getUuid())) {
+            plr.sendMessage(languageUtil.getMessage("player-nonExistent"));
+            return;
+        }
+
+        if (fac.getUuid().equals("")) {
+            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            return;
+        }
+
+
+
             plr.sendMessage(languageUtil.getMessage("faction-playerKicked")
                     .replaceAll("%plr%", plr2.getName()));
             String facName = fac.getName();
@@ -57,6 +72,6 @@ public class kickSubCommand extends SubCommand {
                     new Invite("", InviteType.NONE));
             JsonTableUtil.updateFaction(fac);
             JsonTableUtil.updatePlayer(rplr);
-        }
+
     }
 }

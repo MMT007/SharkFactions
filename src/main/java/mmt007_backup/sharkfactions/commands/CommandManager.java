@@ -1,7 +1,7 @@
 package mmt007_backup.sharkfactions.commands;
 
 import mmt007_backup.sharkfactions.SharkFMain;
-import mmt007_backup.sharkfactions.commands.SubCommands.*;
+import mmt007_backup.sharkfactions.commands.subCommands.*;
 import mmt007_backup.sharkfactions.lang.languageUtil;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
 import org.bukkit.command.Command;
@@ -31,18 +31,21 @@ public class CommandManager implements TabExecutor {
         subCommands.add(new inviteSubCommand());
         subCommands.add(new kickSubCommand());
         subCommands.add(new leaveSubCommand());
+        subCommands.add(new listSubCommand());
+        subCommands.add(new mapSubCommand());
         subCommands.add(new menuSubCommand());
         subCommands.add(new sethomeSubCommand());
-        subCommands.add(new unclaimSubCommand());
         subCommands.add(new truceSubCommand());
-        subCommands.add(new mapSubCommand());
+        subCommands.add(new unclaimSubCommand());
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player plr){
             if(args.length > 0) {
-                if (command.getName().equalsIgnoreCase("Factions") && args[0].equalsIgnoreCase("reload")) {
+                if (!command.getName().equalsIgnoreCase("Factions")){return true;}
+
+                if (args[0].equalsIgnoreCase("reload")) {
                     this.reloadFiles(sender);
                     return true;
                 }
@@ -59,7 +62,9 @@ public class CommandManager implements TabExecutor {
             new menuSubCommand().perform(plr,args);
         }else if (sender instanceof ConsoleCommandSender){
             if(args.length > 0) {
-                if (command.getName().equalsIgnoreCase("Factions") && args[0].equalsIgnoreCase("reload")) {
+                if (!command.getName().equalsIgnoreCase("Factions")){return true;}
+
+                if (args[0].equalsIgnoreCase("reload")) {
                     this.reloadFiles(sender);
                     return true;
                 }
@@ -88,6 +93,7 @@ public class CommandManager implements TabExecutor {
         if (sender instanceof Player plr) {
             if (plr.isOp()) {
                 JsonTableUtil.loadTables();
+                languageUtil.loadMessages();
                 main.reloadConfig();
                 plr.sendMessage(languageUtil.getMessage("config-loaded"));
             } else {
@@ -96,6 +102,7 @@ public class CommandManager implements TabExecutor {
         } else if (sender instanceof ConsoleCommandSender) {
             main.reloadConfig();
             JsonTableUtil.loadTables();
+            languageUtil.loadMessages();
         }
 
     }

@@ -8,7 +8,13 @@
 plugin-lang: pt_br
 
 
+### Configurações Do Chat
+use-join: true
+use-leave: true
+use-chat: true
+
 ### Blocos Permitidos Para Invasão:
+use-invasion: true
 invasion-blocks:
   - 'ladder'
 

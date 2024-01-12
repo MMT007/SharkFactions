@@ -24,7 +24,8 @@ public class languageUtil {
 
     public static String getMessage(String message){
         String lang = main.getConfig().getString("plugin-lang");
-        return messages.get(lang).get(message);
+        String Message = messages.get(lang).get(message);
+        return Message == null ? "§4\"{0}\" Message Does Not Exist".replace("{0}",message) : Message;
     }
 
     public static void loadMessages(){

@@ -1,4 +1,4 @@
-package mmt007_backup.sharkfactions.menu.Utils;
+package mmt007_backup.sharkfactions.menu.utils;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

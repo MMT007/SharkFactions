@@ -1,4 +1,4 @@
-package mmt007_backup.sharkfactions.commands.SubCommands;
+package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
 import mmt007_backup.sharkfactions.lang.languageUtil;
@@ -34,14 +34,15 @@ public class unclaimSubCommand extends SubCommand {
     public void perform(Player plr, String[] args) {
         //--Initializes Chunk and Faction Variables
         Chunk chunk = Objects.requireNonNull(plr.getLocation().getChunk());
-        Factions fac = JsonTableUtil.getFactionByPlayer(plr);
+        Factions fac = JsonTableUtil.getFaction(plr);
 
         //--Checks If Player Has Owner Permission / Faction
-        if (!Objects.equals(plr.getUniqueId().toString(), fac.getOwner())) {
+        if (!Utilitis.isFactionOwner(plr)) {
             plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
             return;
         }
-        if (Objects.equals(JsonTableUtil.getPlayer(plr.getUniqueId().toString()).getFuuid(), "")) {
+
+        if (fac.getUuid().equals("")) {
             plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
             return;
         }
@@ -67,8 +68,6 @@ public class unclaimSubCommand extends SubCommand {
 
 
         //--Removes Chunk From Faction Claims, Updates Faction And Sends Message
-        Bukkit.getLogger().info("DEBUG:: " + ch.remove(chunkToBeRemoved));
-
         fac.setChunks(ch);
 
         JsonTableUtil.updateFaction(fac);

@@ -1,4 +1,4 @@
-package mmt007_backup.sharkfactions.commands.SubCommands;
+package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
 import mmt007_backup.sharkfactions.lang.languageUtil;

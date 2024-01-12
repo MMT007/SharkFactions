@@ -45,6 +45,7 @@ faction-teleporting: "§7[Factions] §bTeleportando..."
 
 faction-allied: "§7[Factions] §cEssa Facção é Aliada!"
 faction-ally: "§7[Factions] §aA Facção %fac% Agora é Sua Aliada"
+faction-ally-removed: "§7[Factions] §aA Facção %fac% Não é Mais Sua Aliada"
 faction-ally-denied: "§7[Factions] §cPedido de Aliança Negado"
 faction-ally-sent: "§7[Factions] §aUm Pedido de Aliança Para a Facção %fac% Foi Mandada."
 faction-ally-invite-received: "§7[Factions] §aUm Pedido de Aliança da Facção %fac% Foi Mandada."

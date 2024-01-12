@@ -1,4 +1,4 @@
-package mmt007_backup.sharkfactions.commands.SubCommands;
+package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
 import mmt007_backup.sharkfactions.lang.languageUtil;
@@ -7,6 +7,7 @@ import mmt007_backup.sharkfactions.models.Invite;
 import mmt007_backup.sharkfactions.models.InviteType;
 import mmt007_backup.sharkfactions.models.Players;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
+import mmt007_backup.sharkfactions.utils.Utilitis;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
@@ -29,22 +30,26 @@ public class leaveSubCommand extends SubCommand {
 
     @Override
     public void perform(Player plr, String[] args) {
+        Players dplr = JsonTableUtil.getPlayer(plr.getUniqueId().toString());
+        Factions fac = JsonTableUtil.getFaction(plr);
 
-        if (Objects.equals(plr.getUniqueId().toString(), JsonTableUtil.getFactionByPlayer(plr).getOwner())) {
-            new disbandSubCommand().perform(plr, args);
-        } else {
-            if (!Objects.equals(JsonTableUtil.getPlayer(plr.getUniqueId().toString()).getFuuid(), "")) {
-                plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
-            }
-            Players dplr = new Players(
-                    plr.getUniqueId().toString(),
-                    "",
-                    new Invite("", InviteType.NONE));
-            Factions fac = JsonTableUtil.getFactionByPlayer(plr);
-            fac.setMembers(fac.getMembers() - 1);
-            JsonTableUtil.updateFaction(fac);
-            JsonTableUtil.updatePlayer(dplr);
-            plr.sendMessage(languageUtil.getMessage("faction-left"));
+        if (fac.getUuid().equals("")) {
+            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            return;
         }
+
+        if (Utilitis.isFactionOwner(plr)) {
+            new disbandSubCommand().perform(plr, args);
+            return;
+        }
+
+        fac.setMembers(fac.getMembers() - 1);
+        dplr.setFuuid("");
+
+        JsonTableUtil.updateFaction(fac);
+        JsonTableUtil.updatePlayer(dplr);
+
+        plr.sendMessage(languageUtil.getMessage("faction-left"));
+
     }
 }

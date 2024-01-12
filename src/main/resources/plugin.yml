@@ -10,4 +10,3 @@ commands:
   Factions:
     description: Comandos De Facção
     aliases: [f, fac]
-

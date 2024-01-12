@@ -1,4 +1,4 @@
-package mmt007_backup.sharkfactions.commands.SubCommands;
+package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
 import mmt007_backup.sharkfactions.lang.languageUtil;
@@ -6,12 +6,10 @@ import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.models.Players;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
 import mmt007_backup.sharkfactions.utils.Utilitis;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class infoSubCommand extends SubCommand {
     @Override
@@ -36,19 +34,11 @@ public class infoSubCommand extends SubCommand {
             return;
         }
 
-        String facn = args[0];
-        Factions fac = null;
-
-        for (Factions f : JsonTableUtil.factions) {
-            if (Objects.equals(f.getName().toLowerCase(), facn.toLowerCase())) {
-                fac = f;
-                break;
-            }
-        }
+        Factions fac = JsonTableUtil.getFaction(args[0]);
 
         if (fac == null) {
             plr.sendMessage(languageUtil.getMessage("faction-nonExistent")
-                    .replaceAll("%fac%",facn));
+                    .replaceAll("%fac%",args[0]));
             return;
         }
 
@@ -89,12 +79,10 @@ public class infoSubCommand extends SubCommand {
         StringBuilder allys = new StringBuilder();
 
         for(String ally : fac.getAllys()){
-            for(Factions f : JsonTableUtil.factions){
-                if(Objects.equals(f.getUuid(), ally)){
-                    allys.append("§3").append(f.getName()).append(" §b- ");
-                }
-            }
+            Factions f = JsonTableUtil.getFaction(ally);
+            allys.append("§3").append(f.getName()).append(" §b- ");
         }
+
         if(allys.length() > 5){allys.delete(allys.length() - 5, allys.length());}
 
         return allys.toString();
@@ -103,12 +91,10 @@ public class infoSubCommand extends SubCommand {
         StringBuilder enemies = new StringBuilder();
 
         for(String enemy : fac.getEnemies()){
-            for(Factions f : JsonTableUtil.factions){
-                if(Objects.equals(f.getUuid(), enemy)){
-                    enemies.append("§c").append(f.getName()).append(" §b- ");
-                }
-            }
+            Factions f = JsonTableUtil.getFaction(enemy);
+            enemies.append("§c").append(f.getName()).append(" §b- ");
         }
+
         if(enemies.length() > 5){enemies.delete(enemies.length() - 5, enemies.length());}
 
         return enemies.toString();

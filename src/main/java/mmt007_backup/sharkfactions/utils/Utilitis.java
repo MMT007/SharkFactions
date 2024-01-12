@@ -34,4 +34,8 @@ public class Utilitis {
 
         return false;
     }
+
+    public static boolean isFactionOwner(Player plr){
+        return JsonTableUtil.getFaction(plr).getOwner().equals(plr.getUniqueId().toString());
+    }
 }

@@ -1,4 +1,4 @@
-package mmt007_backup.sharkfactions.commands.SubCommands;
+package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
 import mmt007_backup.sharkfactions.lang.languageUtil;
@@ -29,16 +29,20 @@ public class homeSubCommand extends SubCommand {
 
     @Override
     public void perform(Player plr, String[] args) {
-        Factions fac = JsonTableUtil.getFactionByPlayer(plr);
-        if (Objects.equals(JsonTableUtil.getPlayer(plr.getUniqueId().toString()).getFuuid(), "")) {
+        Factions fac = JsonTableUtil.getFaction(plr);
+        if (fac.getUuid().equals("")) {
             plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
-        } else if (fac.getBaseLocation().getY() <= 0.0) {
-            plr.sendMessage(languageUtil.getMessage("faction-noHome"));
-        } else {
-            World world = Bukkit.getWorld(fac.getBaseLocation().getWorld());
-            Location home = new Location(world, fac.getBaseLocation().getX(), fac.getBaseLocation().getY(), fac.getBaseLocation().getZ());
-            plr.sendMessage(languageUtil.getMessage("faction-teleporting"));
-            plr.teleport(home);
+            return;
         }
+        if (fac.getBaseLocation().getY() <= 0.0) {
+            plr.sendMessage(languageUtil.getMessage("faction-noHome"));
+            return;
+        }
+
+        World world = Bukkit.getWorld(fac.getBaseLocation().getWorld());
+        Location home = new Location(world, fac.getBaseLocation().getX(), fac.getBaseLocation().getY(), fac.getBaseLocation().getZ());
+        plr.sendMessage(languageUtil.getMessage("faction-teleporting"));
+        plr.teleport(home);
+
     }
 }

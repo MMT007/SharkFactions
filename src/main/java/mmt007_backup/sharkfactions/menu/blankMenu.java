@@ -1,6 +1,6 @@
 package mmt007_backup.sharkfactions.menu;
 
-import mmt007_backup.sharkfactions.menu.Utils.MenuCreationUtil;
+import mmt007_backup.sharkfactions.menu.utils.MenuCreationUtil;
 import mmt007_backup.sharkfactions.menu.models.InputType;
 import mmt007_backup.sharkfactions.menu.models.PlayerMenuUtility;
 import mmt007_backup.sharkfactions.menu.models.playerOnInput;

@@ -1,11 +1,10 @@
-package mmt007_backup.sharkfactions.commands.SubCommands;
+package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.SharkFMain;
 import mmt007_backup.sharkfactions.commands.SubCommand;
 import mmt007_backup.sharkfactions.lang.languageUtil;
 import mmt007_backup.sharkfactions.models.*;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -44,17 +43,22 @@ public class createSubCommand extends SubCommand {
             return;
         }
 
-        if (!Objects.equals(JsonTableUtil.getPlayer(plr.getUniqueId().toString()).getFuuid(), "")) {
+        if (!JsonTableUtil.getPlayer(plr).getFuuid().equals("")) {
             plr.sendMessage(languageUtil.getMessage("faction-alreadyOn"));
-        } else if (args[0].replaceAll("&.{1}","").length() >= this.factionNameMaxChar + 1) {
+        }
+
+        if (args[0].replaceAll("&.{1}","").length() >= this.factionNameMaxChar + 1) {
             plr.sendMessage(languageUtil.getMessage("faction-nameLimit")
                     .replaceAll("%limit%", String.valueOf(this.factionNameMaxChar)));
-        } else {
-            if (args[1].length() >= this.factionTagMaxChar + 1) {
-                plr.sendMessage(languageUtil.getMessage("faction-tagLimit")
-                        .replaceAll("%limit%", String.valueOf(this.factionTagMaxChar)));
-                return;
-            }
+        }
+
+        if (args[1].length() >= this.factionTagMaxChar + 1) {
+            plr.sendMessage(languageUtil.getMessage("faction-tagLimit")
+                    .replaceAll("%limit%", String.valueOf(this.factionTagMaxChar)));
+            return;
+        }
+
+
 
             String facName = args[0];
             String facTag = args[1];
@@ -82,7 +86,7 @@ public class createSubCommand extends SubCommand {
             plr.sendMessage(languageUtil.getMessage("faction-created")
                     .replaceAll("%fac%",facName)
                     .replaceAll("%tag%",facTag));
-        }
+
     }
 
     public void setVars() {

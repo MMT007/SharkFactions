@@ -1,13 +1,13 @@
 package mmt007_backup.sharkfactions;
 
-import mmt007_backup.sharkfactions.commands.SubCommands.*;
+import mmt007_backup.sharkfactions.commands.subCommands.*;
 import mmt007_backup.sharkfactions.lang.languageUtil;
 import mmt007_backup.sharkfactions.menu.MenuMngr;
 import mmt007_backup.sharkfactions.menu.models.InputType;
 import mmt007_backup.sharkfactions.menu.models.playerOnInput;
 import mmt007_backup.sharkfactions.models.Players;
+import mmt007_backup.sharkfactions.models.Tuple;
 import mmt007_backup.sharkfactions.utils.Utilitis;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +20,6 @@ import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class ChatHandler implements Listener {
     Plugin main = SharkFMain.getPlugin();
@@ -30,6 +29,8 @@ public class ChatHandler implements Listener {
 
     @EventHandler
     public void onJoinEvent(PlayerJoinEvent e) {
+        if (!main.getConfig().getBoolean("use-join")){return;}
+
         String onConfigJoin = "";
         Player plr = e.getPlayer();
         if (plr.hasPlayedBefore()) {
@@ -48,6 +49,8 @@ public class ChatHandler implements Listener {
 
     @EventHandler
     public void onLeaveEvent(PlayerQuitEvent e) {
+        if (!main.getConfig().getBoolean("use-leave")){return;}
+
         Player plr = e.getPlayer();
 
         String onConfigJoin = languageUtil.getMessage("player-leave");
@@ -62,6 +65,8 @@ public class ChatHandler implements Listener {
 
     @EventHandler
     public void sendMessageEvent(AsyncPlayerChatEvent e) {
+        if (!main.getConfig().getBoolean("use-chat")){return;}
+
         String msg = e.getMessage();
         Player plr = e.getPlayer();
         Factions fac = JsonTableUtil.getFaction(JsonTableUtil.getPlayer(plr.getUniqueId().toString()).getFuuid());

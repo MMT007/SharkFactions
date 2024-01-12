@@ -12,10 +12,9 @@ public class listSubCommandConsts {
         ArrayList<ArrayList<String>> pageList = new ArrayList<>();
         ArrayList<String> factionsList = new ArrayList<>();
 
-        ArrayList<Factions> factions = JsonTableUtil.factions;
         int factionsPerPage = 8;
 
-        for(Factions fac : factions){
+        for(Factions fac : JsonTableUtil.factions.values()){
             factionsList.add("§7[Factions] §b" +
                     fac.getName() +
                     " [§3" +
@@ -23,7 +22,7 @@ public class listSubCommandConsts {
                     "]\n");
         }
 
-        int pages = (int)Math.ceil((double) factions.size() / factionsPerPage);
+        int pages = (int)Math.ceil((double) JsonTableUtil.factions.size() / factionsPerPage);
 
         for (int j = 0; j < pages; j++) {
             ArrayList<String> factionsOnPage = new ArrayList<>();

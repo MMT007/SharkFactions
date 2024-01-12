@@ -10,7 +10,6 @@ import mmt007_backup.sharkfactions.utils.Utilitis;
 import mmt007_backup.sharkfactions.lang.languageUtil;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -45,8 +44,8 @@ public class GeneralEventHandler implements Listener {
 
         if(attacked == null || attacker == null ){return;}
 
-        Factions attackerFac = JsonTableUtil.getFactionByPlayer(attacker);
-        Factions attackedFac = JsonTableUtil.getFactionByPlayer(attacked);
+        Factions attackerFac = JsonTableUtil.getFaction(attacker);
+        Factions attackedFac = JsonTableUtil.getFaction(attacked);
 
         for(String id : attackerFac.getAllys()){
             if(Objects.equals(attackedFac.getUuid(), id)){
@@ -68,7 +67,7 @@ public class GeneralEventHandler implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         Player plr = e.getPlayer();
-        Factions fac = JsonTableUtil.getFactionByPlayer(plr);
+        Factions fac = JsonTableUtil.getFaction(plr);
 
         if(Objects.equals(fac.getOwner(), plr.getUniqueId().toString())){
             if(fac.getInvite().getType().equals(InviteType.NONE)){
@@ -127,12 +126,12 @@ public class GeneralEventHandler implements Listener {
         FChunk chunk = new FChunk(chk.getX(), chk.getZ(), chk.getWorld().getName());
         if (JsonTableUtil.isChunkFromPlayerFactions(plr, chunk) == -1) {
 
-            for (String block : this.main.getConfig().getStringList("invasion-blocks")) {
-                if (Objects.equals(e.getBlock().getType().name().toLowerCase(), block.toLowerCase())) {
-                    return;
+            if (main.getConfig().getBoolean("use-invasion")) {
+                for (String block : this.main.getConfig().getStringList("invasion-blocks")) {
+                    if (Objects.equals(e.getBlock().getType().name().toLowerCase(), block.toLowerCase())) {
+                        return;
+                    }
                 }
-
-                Bukkit.getLogger().info(block);
             }
 
             plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
@@ -189,7 +188,7 @@ public class GeneralEventHandler implements Listener {
         }
 
         Player plr = e.getPlayer();
-        Factions pFac = JsonTableUtil.getFactionByPlayer(plr);
+        Factions pFac = JsonTableUtil.getFaction(plr);
 
         Chunk chunk = e.getRightClicked().getLocation().getChunk();
 
