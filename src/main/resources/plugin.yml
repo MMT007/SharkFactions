@@ -3,10 +3,11 @@ version: '${project.version}'
 main: mmt007_backup.sharkfactions.SharkFMain
 api-version: 1.16
 prefix: "[ Shark Factions ]"
-load: STARTUP
+load: POSTWORLD
 authors: [ MMT007_backUP ]
 description: Um Plugin de Minecraft Brasileiro Feito Por MMT007_backUP
 commands:
   Factions:
     description: Comandos De Facção
     aliases: [f, fac]
+softdepend: [WorldGuard, Vault]

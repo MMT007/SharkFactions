@@ -1,7 +1,7 @@
 package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.models.Players;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
@@ -23,6 +23,12 @@ public class infoSubCommand extends SubCommand {
     }
 
     @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName()),"{name}"};}
+
+    @Override
     public String getSyntax() {
         return "Info";
     }
@@ -36,8 +42,8 @@ public class infoSubCommand extends SubCommand {
 
         Factions fac = JsonTableUtil.getFaction(args[0]);
 
-        if (fac == null) {
-            plr.sendMessage(languageUtil.getMessage("faction-nonExistent")
+        if (fac.getUuid().equals("")) {
+            plr.sendMessage(languageMngr.getMessage("faction-nonExistent")
                     .replaceAll("%fac%",args[0]));
             return;
         }

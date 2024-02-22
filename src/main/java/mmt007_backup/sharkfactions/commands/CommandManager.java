@@ -2,8 +2,10 @@ package mmt007_backup.sharkfactions.commands;
 
 import mmt007_backup.sharkfactions.SharkFMain;
 import mmt007_backup.sharkfactions.commands.subCommands.*;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
+import mmt007_backup.sharkfactions.utils.protectedChunkUtil;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -15,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandManager implements TabExecutor {
-    private final Plugin main = SharkFMain.getPlugin();
-    private final ArrayList<SubCommand> subCommands = new ArrayList<>();
+    private static final Plugin main = SharkFMain.getPlugin();
+    private final Permission permission = SharkFMain.getPermission();
+    private static final ArrayList<SubCommand> subCommands = new ArrayList<>();
     public CommandManager(){
         subCommands.add(new helpSubCommand());
         subCommands.add(new acceptSubCommand());
@@ -37,6 +40,7 @@ public class CommandManager implements TabExecutor {
         subCommands.add(new sethomeSubCommand());
         subCommands.add(new truceSubCommand());
         subCommands.add(new unclaimSubCommand());
+        subCommands.add(new protectRegionSubCommand());
     }
 
     @Override
@@ -79,9 +83,42 @@ public class CommandManager implements TabExecutor {
         if (args.length == 1) {
             List<String> commands = new ArrayList<>();
             for(SubCommand sb : subCommands){
-                commands.add(sb.getName());
+                String acString = sb.getAutoComplete()[0];
+                if(acString.contains("admin")){
+                    if(sender.isOp() || permission.has(sender,sb.getPermission())){
+                        commands.add(acString);
+                    }
+                }else{
+                    commands.add(acString);
+                }
             }
+
+            if(sender.isOp() || permission.has(sender,"sharkfactions.admin.reload")){
+                commands.add("Reload");
+            }
+
             return commands;
+        } else if (args.length > 1) {
+            for(SubCommand sb : subCommands){
+                if(sb.getName().equalsIgnoreCase(args[0])){
+                    if(args.length >= sb.getAutoComplete().length) return null;
+                    String acString = sb.getAutoComplete()[args.length - 1];
+                    switch (acString){
+                        case "{name}" ->{
+                            List<String> names = new ArrayList<>();
+                            JsonTableUtil.factions.values().forEach(v -> names.add(v.getName()));
+
+                            return names;
+                        }
+                        case "{region}" ->{
+                            return new ArrayList<>(protectedChunkUtil.getRegions().keySet());
+                        }
+                        default -> {
+                            return List.of(acString.split(":"));
+                        }
+                    }
+                }
+            }
         }
 
         return null;
@@ -93,16 +130,16 @@ public class CommandManager implements TabExecutor {
         if (sender instanceof Player plr) {
             if (plr.isOp()) {
                 JsonTableUtil.loadTables();
-                languageUtil.loadMessages();
+                languageMngr.loadMessages();
                 main.reloadConfig();
-                plr.sendMessage(languageUtil.getMessage("config-loaded"));
+                plr.sendMessage(languageMngr.getMessage("config-loaded"));
             } else {
-                plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+                plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
             }
         } else if (sender instanceof ConsoleCommandSender) {
             main.reloadConfig();
             JsonTableUtil.loadTables();
-            languageUtil.loadMessages();
+            languageMngr.loadMessages();
         }
 
     }
@@ -115,5 +152,16 @@ public class CommandManager implements TabExecutor {
         }
 
         return newArgs;
+    }
+
+    static {
+        for(SubCommand sb : subCommands){
+            org.bukkit.permissions.Permission perm = new org.bukkit.permissions.Permission(sb.getPermission());
+            main.getServer().getPluginManager().addPermission(perm);
+        }
+
+        org.bukkit.permissions.Permission perm = new org.bukkit.permissions.Permission("msharkfactions.admin.reload");
+        main.getServer().getPluginManager().addPermission(perm);
+
     }
 }

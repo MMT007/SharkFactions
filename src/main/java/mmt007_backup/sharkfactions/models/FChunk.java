@@ -42,6 +42,16 @@ public class FChunk {
 
     public String getName(){return this.x + "_" + this.y + "_" + this.world;}
 
+    public boolean isInsideArea(Tuple<FChunk,FChunk> area){
+        FChunk upper = area.x();
+        FChunk lower = area.y();
+
+        boolean xCheck = this.x >= lower.getX() && this.x <= upper.getX();
+        boolean yCheck = this.y >= lower.getY() && this.y <= upper.getY();
+
+        return xCheck && yCheck;
+    }
+
     public static FChunk fromBukkit(Chunk chunk){
         return new FChunk(chunk.getX(), chunk.getZ(), chunk.getWorld().getName());
     }

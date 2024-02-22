@@ -1,6 +1,7 @@
 package mmt007_backup.sharkfactions.menu;
 
-import mmt007_backup.sharkfactions.menu.utils.MenuCreationUtil;
+import mmt007_backup.sharkfactions.menu.models.MenuBorderType;
+import mmt007_backup.sharkfactions.utils.MenuCreationUtil;
 import mmt007_backup.sharkfactions.menu.models.InputType;
 import mmt007_backup.sharkfactions.menu.models.PlayerMenuUtility;
 import mmt007_backup.sharkfactions.menu.models.playerOnInput;
@@ -22,6 +23,12 @@ public class blankMenu extends Menu {
     public int getSize() {return 0;}
 
     @Override
+    public MenuBorderType getBorder() {return MenuBorderType.NONE;}
+
+    @Override
+    public String getBorderColor() {return "light_blue";}
+
+    @Override
     public void peform(InventoryClickEvent e) {
         if(e.getCurrentItem() == null){return;}
         Player plr = (Player) e.getWhoClicked();
@@ -34,7 +41,8 @@ public class blankMenu extends Menu {
     @Override
     public void setMenuItems() {
         ItemStack[] items = MenuCreationUtil.createBackGround(
-                getSize(), Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+                getSize(), Material.LIGHT_BLUE_STAINED_GLASS_PANE
+        ,getBorder(),getBorderColor());
 
         inventory.setContents(items);
     }

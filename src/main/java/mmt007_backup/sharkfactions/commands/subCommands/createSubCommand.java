@@ -2,14 +2,14 @@ package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.SharkFMain;
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.*;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
+import mmt007_backup.sharkfactions.utils.Utilitis;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
 
 public class createSubCommand extends SubCommand {
@@ -30,6 +30,12 @@ public class createSubCommand extends SubCommand {
     }
 
     @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName())};}
+
+    @Override
     public String getSyntax() {
         return "Create <Nome da Facção> <Tag da Facção>";
     }
@@ -44,48 +50,47 @@ public class createSubCommand extends SubCommand {
         }
 
         if (!JsonTableUtil.getPlayer(plr).getFuuid().equals("")) {
-            plr.sendMessage(languageUtil.getMessage("faction-alreadyOn"));
+            plr.sendMessage(languageMngr.getMessage("faction-alreadyOn"));
         }
 
         if (args[0].replaceAll("&.{1}","").length() >= this.factionNameMaxChar + 1) {
-            plr.sendMessage(languageUtil.getMessage("faction-nameLimit")
+            plr.sendMessage(languageMngr.getMessage("faction-nameLimit")
                     .replaceAll("%limit%", String.valueOf(this.factionNameMaxChar)));
         }
 
         if (args[1].length() >= this.factionTagMaxChar + 1) {
-            plr.sendMessage(languageUtil.getMessage("faction-tagLimit")
+            plr.sendMessage(languageMngr.getMessage("faction-tagLimit")
                     .replaceAll("%limit%", String.valueOf(this.factionTagMaxChar)));
             return;
         }
 
+        //-- checks If Player Has Enough Money
+        if(!Utilitis.removeBalance(plr,"faction-create-cost")) return;
 
+        String facName = args[0];
+        String facTag = args[1];
 
-            String facName = args[0];
-            String facTag = args[1];
+        UUID id = UUID.randomUUID();
+        Players dplr = new Players(
+                plr.getUniqueId().toString()
+                , id.toString(),
+                new Invite("", InviteType.NONE));
+        FLocation location = new FLocation(0.0, 0.0, 0.0, plr.getWorld().getName());
+        Factions fac = new Factions(
+                id.toString(),
+                plr.getUniqueId().toString(),
+                facName, facTag, 1,
+                new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(),
+                new Invite("", InviteType.NONE),
+                location);
 
-            UUID id = UUID.randomUUID();
-            Players dplr = new Players(
-                    plr.getUniqueId().toString()
-                    , id.toString(),
-                    new Invite("", InviteType.NONE));
-            FLocation location = new FLocation(0.0, 0.0, 0.0, plr.getWorld().getName());
-            Factions fac = new Factions(
-                    id.toString(),
-                    plr.getUniqueId().toString(),
-                    facName, facTag,
-                    1,
-                    new ArrayList<>(),
-                    new ArrayList<>(),
-                    new ArrayList<>(),
-                    new Invite("", InviteType.NONE),
-                    location);
+        JsonTableUtil.createFaction(fac);
+        JsonTableUtil.updatePlayer(dplr);
 
-            JsonTableUtil.createFaction(fac);
-            JsonTableUtil.updatePlayer(dplr);
-
-            plr.sendMessage(languageUtil.getMessage("faction-created")
-                    .replaceAll("%fac%",facName)
-                    .replaceAll("%tag%",facTag));
+        plr.sendMessage(languageMngr.getMessage("faction-created")
+                .replaceAll("%fac%",facName)
+                .replaceAll("%tag%",facTag));
 
     }
 

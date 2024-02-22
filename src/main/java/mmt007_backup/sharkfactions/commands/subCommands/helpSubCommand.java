@@ -1,7 +1,7 @@
 package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.utils.helpSubCommandConsts;
 import org.bukkit.entity.Player;
 
@@ -17,6 +17,12 @@ public class helpSubCommand extends SubCommand {
     public String getDescription() {
         return "Mostra Lista De Commandos";
     }
+
+    @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName())};}
 
     @Override
     public String getSyntax() {
@@ -54,7 +60,7 @@ public class helpSubCommand extends SubCommand {
                 §7[Factions] §b------------------------------------------------------
                 """.replace("%commands", builder.toString())
                 .replace("%page", helpSubCommandConsts.getPageNum(pageNum))
-                .replace("%facchat%", languageUtil.getMessage("help-factionChat"));
+                .replace("%facchat%", languageMngr.getMessage("help-factionChat"));
     }
 
     private static boolean isNumeric(String str){

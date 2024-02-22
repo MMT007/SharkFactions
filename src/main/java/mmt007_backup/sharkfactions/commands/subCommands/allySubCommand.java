@@ -1,7 +1,7 @@
 package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.models.Invite;
 import mmt007_backup.sharkfactions.models.InviteType;
@@ -21,6 +21,12 @@ public class allySubCommand extends SubCommand {
     public String getDescription() {
         return "Faz a Facção ser sua Aliada";
     }
+
+    @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName()),"add:remove","{name}"};}
 
     @Override
     public String getSyntax() {
@@ -53,17 +59,17 @@ public class allySubCommand extends SubCommand {
         //--Check If Player Has a Factions / Owner Permissions
         //--Also Checks If Faction Given Is Real
         if(PFac.getName().equals("")){
-            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            plr.sendMessage(languageMngr.getMessage("faction-hasNone"));
             return;
         }
 
         if (!Utilitis.isFactionOwner(plr)) {
-            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+            plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
             return;
         }
 
         if (fac.getName().equals("")) {
-            plr.sendMessage(languageUtil.getMessage("faction-nonExistent")
+            plr.sendMessage(languageMngr.getMessage("faction-nonExistent")
                     .replaceAll("%fac%", args[1]));
             return;
         }
@@ -73,14 +79,14 @@ public class allySubCommand extends SubCommand {
         JsonTableUtil.updateFaction(fac);
 
         //--Sends Ally Invite Sent Message
-        plr.sendMessage(languageUtil.getMessage("faction-ally-sent")
+        plr.sendMessage(languageMngr.getMessage("faction-ally-sent")
                 .replaceAll("%fac%", fac.getName()));
 
         //-- Gets Other Factions Owner And Sends The Invite Received Message
         Player facOwner = Utilitis.getBukkitPlayer(JsonTableUtil.getPlayer(fac.getOwner()));
 
         if (facOwner != null) {
-            facOwner.sendMessage(languageUtil.getMessage("faction-ally-invite-received")
+            facOwner.sendMessage(languageMngr.getMessage("faction-ally-invite-received")
                     .replaceAll("%fac%",PFac.getName()));
         }
 
@@ -95,17 +101,17 @@ public class allySubCommand extends SubCommand {
         //--Check If Player Has a Factions / Owner Permissions
         //--Also Checks If Faction Given Is Real
         if(pFac.getName().equals("")){
-            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            plr.sendMessage(languageMngr.getMessage("faction-hasNone"));
             return;
         }
 
         if (!Utilitis.isFactionOwner(plr)) {
-            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+            plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
             return;
         }
 
         if (fac.getName().equals("")) {
-            plr.sendMessage(languageUtil.getMessage("faction-nonExistent")
+            plr.sendMessage(languageMngr.getMessage("faction-nonExistent")
                     .replaceAll("%fac%", args[1]));
             return;
         }
@@ -126,14 +132,14 @@ public class allySubCommand extends SubCommand {
         JsonTableUtil.updateFaction(pFac);
 
         //--Sends Ally Removed Message
-        plr.sendMessage(languageUtil.getMessage("faction-ally-removed")
+        plr.sendMessage(languageMngr.getMessage("faction-ally-removed")
                 .replaceAll("%fac%", fac.getName()));
 
         //-- Gets Other Factions Owner And Sends The Ally Removed Message
         Player facOwner = Utilitis.getBukkitPlayer(JsonTableUtil.getPlayer(fac.getOwner()));
 
         if (facOwner != null) {
-            facOwner.sendMessage(languageUtil.getMessage("faction-ally-removed")
+            facOwner.sendMessage(languageMngr.getMessage("faction-ally-removed")
                     .replaceAll("%fac%",pFac.getName()));
         }
 

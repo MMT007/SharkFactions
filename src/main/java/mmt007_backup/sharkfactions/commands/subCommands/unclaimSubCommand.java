@@ -1,12 +1,11 @@
 package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.FChunk;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
 import mmt007_backup.sharkfactions.utils.Utilitis;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 
@@ -26,6 +25,12 @@ public class unclaimSubCommand extends SubCommand {
     }
 
     @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName())};}
+
+    @Override
     public String getSyntax() {
         return "Unclaim";
     }
@@ -38,12 +43,12 @@ public class unclaimSubCommand extends SubCommand {
 
         //--Checks If Player Has Owner Permission / Faction
         if (!Utilitis.isFactionOwner(plr)) {
-            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+            plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
             return;
         }
 
         if (fac.getUuid().equals("")) {
-            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            plr.sendMessage(languageMngr.getMessage("faction-hasNone"));
             return;
         }
 
@@ -56,23 +61,24 @@ public class unclaimSubCommand extends SubCommand {
 
         //--Checks If Faction Has Chunks, If None, Send Message And Return;
         if (ch.size() == 0) {
-            plr.sendMessage(languageUtil.getMessage("chunk-none"));
+            plr.sendMessage(languageMngr.getMessage("chunk-none"));
             return;
         }
 
         //--Checks If Faction Has The Chunk Claimed, If Not, Send Message And Return;
         if(!ch.contains(chunkToBeRemoved)){
-            plr.sendMessage(languageUtil.getMessage("chunk-notClaimed"));
+            plr.sendMessage(languageMngr.getMessage("chunk-notClaimed"));
             return;
         }
 
 
         //--Removes Chunk From Faction Claims, Updates Faction And Sends Message
+        ch.remove(chunkToBeRemoved);
         fac.setChunks(ch);
 
         JsonTableUtil.updateFaction(fac);
 
-        plr.sendMessage(languageUtil.getMessage("chunk-unClaimed")
+        plr.sendMessage(languageMngr.getMessage("chunk-unClaimed")
                 .replaceAll("%coords%", "[" + chnkX + " " + chnkZ + "]"));
     }
 }

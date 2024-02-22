@@ -1,7 +1,7 @@
 package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
 import mmt007_backup.sharkfactions.utils.Utilitis;
@@ -22,6 +22,12 @@ public class enemySubCommand extends SubCommand {
     }
 
     @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName()),"{name}"};}
+
+    @Override
     public String getSyntax() {
         return "Enemy <Nome da Facção>";
     }
@@ -37,18 +43,18 @@ public class enemySubCommand extends SubCommand {
 
         
         if (fac == null) {
-            plr.sendMessage(languageUtil.getMessage("faction-nonExistent")
+            plr.sendMessage(languageMngr.getMessage("faction-nonExistent")
                     .replaceAll("%fac%",args[0]));
             return;
         }
 
         if(fac.getUuid().equals("")){
-            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            plr.sendMessage(languageMngr.getMessage("faction-hasNone"));
             return;
         }
 
         if (!Utilitis.isFactionOwner(plr)) {
-            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+            plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
             return;
         }
         
@@ -56,13 +62,13 @@ public class enemySubCommand extends SubCommand {
         
         for(String f : PFac.getAllys()){
             if(Objects.equals(f, fac.getUuid())){
-                plr.sendMessage(languageUtil.getMessage("faction-allied"));
+                plr.sendMessage(languageMngr.getMessage("faction-allied"));
                 return;
             }
         }
         for(String f : PFac.getEnemies()){
             if(Objects.equals(f, fac.getUuid())){
-                plr.sendMessage(languageUtil.getMessage("faction-alreadyEnemy"));
+                plr.sendMessage(languageMngr.getMessage("faction-alreadyEnemy"));
                 return;
             }
         }
@@ -82,10 +88,10 @@ public class enemySubCommand extends SubCommand {
         Player EFOwner = Utilitis.getBukkitPlayer(JsonTableUtil.getPlayer(fac.getOwner()));
 
         if (EFOwner != null){
-            EFOwner.sendMessage(languageUtil.getMessage("faction-enemy")
+            EFOwner.sendMessage(languageMngr.getMessage("faction-enemy")
                     .replaceAll("%fac%",PFac.getName()));
         }
-        plr.sendMessage(languageUtil.getMessage("faction-enemy")
+        plr.sendMessage(languageMngr.getMessage("faction-enemy")
                 .replaceAll("%fac%",args[0]));
         
     }

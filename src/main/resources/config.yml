@@ -4,22 +4,39 @@
 ### //////////////////////////////////////////
 ### ------------------------------------------
 
-### Idioma do Plugin:
+### ------------- Idioma do Plugin -------------
 plugin-lang: pt_br
 
 
-### Configurações Do Chat
+### ------------- Configurações Do Chat -------------
 use-join: true
 use-leave: true
 use-chat: true
 
-### Blocos Permitidos Para Invasão:
+### ------------- Blocos Permitidos Para Invasão -------------
 use-invasion: true
 invasion-blocks:
   - 'ladder'
 
+### ------------- Sistema de Economia -------------
+## Abilita Sistema de Econamia
+# OBS: REQUER PLUGIN <VAULT>
+use-economy: false
 
-### Config de Facção:
+## OBS: Use Um Número Negativo Para Dar Dinheiro A Um Player
+## Custo De Dominar Chunk
+claim-cost: 1000
+
+## Custo De Abandonar Chunk
+unclaim-cost: -200
+
+## Custo Extra Por Chunk Dominado
+claim-cost-per-chunk: 1250
+
+## Custo Para Criar Facção
+faction-create-cost: 5000
+
+### ------------- Config de Facção -------------
 ## Permite Que O Player Interaja Com Um Mob De Base Inimiga/Neutra
 faction-player-interact-entity: false
 

@@ -15,6 +15,15 @@ help-factionChat: "§ePut \".\" On The Beginning Of A Phrase To Chat With Factio
 
 
 
+protectedArea-warn: "§7[Factions] §cThis Is A Protected Area"
+protectedArea-removed: "§7[Factions] §aProtected Region Removed"
+protectedArea-set: "§7[Factions] §aProtected Region Set"
+
+
+
+insufficient-balance: "§7[Factions] §cYou Don't Have Enough Money To Do This. You Need $%cost%"
+new-balance: "§7[Factions] §aYour New Balance Is: §6$%bal%"
+
 cant-perform-action: "§7[Factions] §cYou Don't Have Permission To Do This."
 cant-attack-ally: "§7[Factions] §cYou Can't Attack An Ally!"
 
@@ -92,12 +101,17 @@ menuItem-getPlayerName-usage: |
  §b(Example: MMT007_backUP)
  §cName §lCan't §r§cContain Spaces.
 menuItem-getFactionName-usage: |
- §bType The Faction Name:
- §b(Example: DeathStanders)
- §cName §lCan't §r§cContain Spaces.
+  §bType The Faction Name:
+  §b(Example: DeathStanders)
+  §cName §lCan't §r§cContain Spaces.
+menuItem-info-usage: |
+  §bType The Faction Name:
+  §b(Example: DeathStanders)
+  §cName §lCan't §r§cContain Spaces.
 menuItem-createFaction-usage: |
- §bType The Name And Tag Of Your Faction:
- §b(Example: DeathStanders DS)
- §cName §lCan't §r§cContain Spaces.
+  §bType The Name And Tag Of Your Faction:
+  §b(Example: DeathStanders DS)
+  §cName §lCan't §r§cContain Spaces.
 
 config-loaded: "§7[Factions] §aConfiguration Loaded Successfully."
+error: "§7[Factions] §cSomething Went Wrong..."

@@ -1,15 +1,12 @@
 package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.models.Invite;
-import mmt007_backup.sharkfactions.models.InviteType;
 import mmt007_backup.sharkfactions.models.Players;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
 import org.bukkit.entity.Player;
-
-import java.util.Objects;
 
 public class denySubCommand extends SubCommand {
     @Override
@@ -23,6 +20,12 @@ public class denySubCommand extends SubCommand {
     }
 
     @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName())};}
+
+    @Override
     public String getSyntax() {
         return "Deny";
     }
@@ -30,7 +33,7 @@ public class denySubCommand extends SubCommand {
     @Override
     public void perform(Player plr, String[] args) {
         if (JsonTableUtil.getPlayer(plr).getFuuid().equals("")) {
-            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            plr.sendMessage(languageMngr.getMessage("faction-hasNone"));
         }
 
         Players p = JsonTableUtil.getPlayer(plr.getUniqueId().toString());
@@ -39,17 +42,17 @@ public class denySubCommand extends SubCommand {
         switch (p.getInvite().getType()){
             case ALLY -> {
                 fac.setInvite(Invite.getEmpty());
-                plr.sendMessage(languageUtil.getMessage("faction-ally-denied"));
+                plr.sendMessage(languageMngr.getMessage("faction-ally-denied"));
                 JsonTableUtil.updateFaction(fac);
             }
             case TRUCE -> {
                 fac.setInvite(Invite.getEmpty());
-                plr.sendMessage(languageUtil.getMessage("faction-truce-denied"));
+                plr.sendMessage(languageMngr.getMessage("faction-truce-denied"));
                 JsonTableUtil.updateFaction(fac);
             }
             case FACTIONINVITE -> {
                 p.setInvite(Invite.getEmpty());
-                plr.sendMessage(languageUtil.getMessage("faction-invite-denied"));
+                plr.sendMessage(languageMngr.getMessage("faction-invite-denied"));
                 JsonTableUtil.updatePlayer(p);
             }
         }

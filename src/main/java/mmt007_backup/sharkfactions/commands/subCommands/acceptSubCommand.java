@@ -1,7 +1,7 @@
 package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.models.Invite;
 import mmt007_backup.sharkfactions.models.InviteType;
@@ -23,6 +23,12 @@ public class acceptSubCommand extends SubCommand {
     public String getDescription() {
         return "Aceitar Pedidos de Facção";
     }
+
+    @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName())};}
 
     @Override
     public String getSyntax() {
@@ -49,7 +55,7 @@ public class acceptSubCommand extends SubCommand {
             //--Gets Invite, Check If There Are Any Invites, If Not, Send Message, Return.
             invite = plr.getInvite();
             if(invite.getType().equals(InviteType.NONE)){
-                bukkitPlayer.sendMessage(languageUtil.getMessage("faction-notInvited"));
+                bukkitPlayer.sendMessage(languageMngr.getMessage("faction-notInvited"));
                 return;
             }
 
@@ -73,7 +79,7 @@ public class acceptSubCommand extends SubCommand {
             invite = fac.getInvite();
 
             if(!fac.getOwner().equals(plr.getUuid())){
-                bukkitPlayer.sendMessage(languageUtil.getMessage("cant-perform-action"));
+                bukkitPlayer.sendMessage(languageMngr.getMessage("cant-perform-action"));
                 return;
             }
 
@@ -82,39 +88,43 @@ public class acceptSubCommand extends SubCommand {
 
             //--Checks If Invite Is {ALLY : TRUCE : NONE}
             //--If None, Send Message, Return;
-            if(invite.getType().equals(InviteType.ALLY)){
-                //------ IF INVITE {ALLY}
+            switch (invite.getType()){
+                case ALLY -> {
+                    //------ IF INVITE {ALLY}
 
-                //--Set Them Both As Their Allies
-                //--Sends Message To Everyone.
-                ArrayList<String> otherAllies = otherFac.getAllys();
-                ArrayList<String> allies = fac.getAllys();
+                    //--Set Them Both As Their Allies
+                    //--Sends Message To Everyone.
+                    ArrayList<String> otherAllies = otherFac.getAllys();
+                    ArrayList<String> allies = fac.getAllys();
 
-                otherAllies.add(fac.getUuid());
-                allies.add(invite.getUUID());
+                    otherAllies.add(fac.getUuid());
+                    allies.add(invite.getUUID());
 
-                fac.setAllys(allies);
-                otherFac.setAllys(otherAllies);
+                    fac.setAllys(allies);
+                    otherFac.setAllys(otherAllies);
 
-                sendFactionMessage(fac,InviteType.ALLY,otherFac);
-            } else if(invite.getType().equals(InviteType.TRUCE)) {
-                //-------- IF INVITE {TRUCE}
+                    sendFactionMessage(fac,InviteType.ALLY,otherFac);
+                }
+                case TRUCE -> {
+                    //-------- IF INVITE {TRUCE}
 
-                //--Removes Both From Their Enemies
-                //--Sends Message To Everyone.
-                ArrayList<String> otherEnemies = otherFac.getEnemies();
-                ArrayList<String> enemies = fac.getEnemies();
+                    //--Removes Both From Their Enemies
+                    //--Sends Message To Everyone.
+                    ArrayList<String> otherEnemies = otherFac.getEnemies();
+                    ArrayList<String> enemies = fac.getEnemies();
 
-                otherEnemies.remove(fac.getUuid());
-                enemies.remove(invite.getUUID());
+                    otherEnemies.remove(fac.getUuid());
+                    enemies.remove(invite.getUUID());
 
-                fac.setEnemies(enemies);
-                otherFac.setEnemies(otherEnemies);
+                    fac.setEnemies(enemies);
+                    otherFac.setEnemies(otherEnemies);
 
-                sendFactionMessage(fac,InviteType.TRUCE,otherFac);
-            }else{
-                bukkitPlayer.sendMessage(languageUtil.getMessage("faction-noFactionInvites"));
-                return;
+                    sendFactionMessage(fac,InviteType.TRUCE,otherFac);
+                }
+                default -> {
+                    bukkitPlayer.sendMessage(languageMngr.getMessage("faction-noFactionInvites"));
+                    return;
+                }
             }
 
             //--Updates Both Factions And Removes Invite From Faction
@@ -138,7 +148,7 @@ public class acceptSubCommand extends SubCommand {
             Player bukkitPlr = Utilitis.getBukkitPlayer(plr);
             if (bukkitPlr == null){continue;}
 
-            bukkitPlr.sendMessage(languageUtil.getMessage("faction-new-member")
+            bukkitPlr.sendMessage(languageMngr.getMessage("faction-new-member")
                     .replaceAll("%plr%",newPlayerName));
         }
     }
@@ -159,7 +169,7 @@ public class acceptSubCommand extends SubCommand {
             Player bukkitPlr = Utilitis.getBukkitPlayer(plr);
             if (bukkitPlr == null){continue;}
 
-            bukkitPlr.sendMessage(languageUtil.getMessage(Message)
+            bukkitPlr.sendMessage(languageMngr.getMessage(Message)
                     .replaceAll("%fac%",otherFac.getName()));
         }
 
@@ -167,7 +177,7 @@ public class acceptSubCommand extends SubCommand {
             Player bukkitPlr = Utilitis.getBukkitPlayer(plr);
             if (bukkitPlr == null){continue;}
 
-            bukkitPlr.sendMessage(languageUtil.getMessage(Message)
+            bukkitPlr.sendMessage(languageMngr.getMessage(Message)
                     .replaceAll("%fac%",fac.getName()));
 
         }

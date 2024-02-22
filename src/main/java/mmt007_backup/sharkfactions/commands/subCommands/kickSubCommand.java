@@ -1,7 +1,7 @@
 package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.models.Invite;
 import mmt007_backup.sharkfactions.models.InviteType;
@@ -25,6 +25,12 @@ public class kickSubCommand extends SubCommand {
     }
 
     @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName())};}
+
+    @Override
     public String getSyntax() {
         return "Kick <Nome do Player>";
     }
@@ -40,30 +46,30 @@ public class kickSubCommand extends SubCommand {
         Factions fac = JsonTableUtil.getFaction(plr);
 
         if (plr2 == null) {
-            plr.sendMessage(languageUtil.getMessage("player-nonExistent"));
+            plr.sendMessage(languageMngr.getMessage("player-nonExistent"));
             return;
         }
 
         if(!Utilitis.isFactionOwner(plr)){
-            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+            plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
         }
 
         if (!Objects.equals(JsonTableUtil.getPlayer(plr2.getUniqueId().toString()).getFuuid(), fac.getUuid())) {
-            plr.sendMessage(languageUtil.getMessage("player-nonExistent"));
+            plr.sendMessage(languageMngr.getMessage("player-nonExistent"));
             return;
         }
 
         if (fac.getUuid().equals("")) {
-            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            plr.sendMessage(languageMngr.getMessage("faction-hasNone"));
             return;
         }
 
 
 
-            plr.sendMessage(languageUtil.getMessage("faction-playerKicked")
+            plr.sendMessage(languageMngr.getMessage("faction-playerKicked")
                     .replaceAll("%plr%", plr2.getName()));
             String facName = fac.getName();
-            plr2.sendMessage(languageUtil.getMessage("faction-kicked")
+            plr2.sendMessage(languageMngr.getMessage("faction-kicked")
                     .replaceAll("%fac%", facName));
             fac.setMembers(fac.getMembers() - 1);
             Players rplr = new Players(

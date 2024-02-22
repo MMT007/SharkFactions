@@ -1,10 +1,6 @@
 package mmt007_backup.sharkfactions.commands;
 
-import mmt007_backup.sharkfactions.commands.CommandManager;
-import mmt007_backup.sharkfactions.commands.SubCommand;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 
 public class blankSubCommand extends SubCommand {
     @Override
@@ -18,9 +14,15 @@ public class blankSubCommand extends SubCommand {
     }
 
     @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
     public String getSyntax() {
         return "";
     }
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName())};}
 
     @Override
     public void perform(Player plr, String[] args) {

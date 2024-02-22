@@ -1,12 +1,11 @@
 package mmt007_backup.sharkfactions;
 
 import mmt007_backup.sharkfactions.commands.subCommands.*;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.menu.MenuMngr;
 import mmt007_backup.sharkfactions.menu.models.InputType;
 import mmt007_backup.sharkfactions.menu.models.playerOnInput;
 import mmt007_backup.sharkfactions.models.Players;
-import mmt007_backup.sharkfactions.models.Tuple;
 import mmt007_backup.sharkfactions.utils.Utilitis;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -34,9 +33,9 @@ public class ChatHandler implements Listener {
         String onConfigJoin = "";
         Player plr = e.getPlayer();
         if (plr.hasPlayedBefore()) {
-            onConfigJoin = languageUtil.getMessage("player-join");
+            onConfigJoin = languageMngr.getMessage("player-join");
         } else {
-            onConfigJoin = languageUtil.getMessage("player-first-join");
+            onConfigJoin = languageMngr.getMessage("player-first-join");
         }
 
         assert onConfigJoin != null;
@@ -53,7 +52,7 @@ public class ChatHandler implements Listener {
 
         Player plr = e.getPlayer();
 
-        String onConfigJoin = languageUtil.getMessage("player-leave");
+        String onConfigJoin = languageMngr.getMessage("player-leave");
 
         assert onConfigJoin != null;
 
@@ -95,8 +94,8 @@ public class ChatHandler implements Listener {
         if(msg.charAt(0) == '.'){
             ArrayList<Players> plrs = JsonTableUtil.getPlayersInFaction(fac.getUuid());
             String isMember = fac.getOwner().equals(plr.getUniqueId().toString()) ?
-                    languageUtil.getMessage("faction-owner-prefix"):
-                    languageUtil.getMessage("faction-member-prefix");
+                    languageMngr.getMessage("faction-owner-prefix"):
+                    languageMngr.getMessage("faction-member-prefix");
 
             for(Players p : plrs){
                 Player bplr = Utilitis.getBukkitPlayer(p);
@@ -108,7 +107,7 @@ public class ChatHandler implements Listener {
             return;
         }
 
-        String onConfigFormat = languageUtil.getMessage("chat-format");
+        String onConfigFormat = languageMngr.getMessage("chat-format");
         String facTag = fac.getTag();
 
         assert onConfigFormat != null;

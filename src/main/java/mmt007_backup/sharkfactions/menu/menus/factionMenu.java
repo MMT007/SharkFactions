@@ -2,10 +2,11 @@ package mmt007_backup.sharkfactions.menu.menus;
 
 import mmt007_backup.sharkfactions.commands.subCommands.homeSubCommand;
 import mmt007_backup.sharkfactions.commands.subCommands.leaveSubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.menu.Menu;
 import mmt007_backup.sharkfactions.menu.MenuMngr;
-import mmt007_backup.sharkfactions.menu.utils.MenuCreationUtil;
+import mmt007_backup.sharkfactions.menu.models.MenuBorderType;
+import mmt007_backup.sharkfactions.utils.MenuCreationUtil;
 import mmt007_backup.sharkfactions.menu.models.InputType;
 import mmt007_backup.sharkfactions.menu.models.PlayerMenuUtility;
 import mmt007_backup.sharkfactions.menu.models.playerOnInput;
@@ -28,7 +29,13 @@ public class factionMenu extends Menu {
 
 
     @Override
-    public int getSize() {return 27;}
+    public int getSize() {return 36;}
+
+    @Override
+    public MenuBorderType getBorder() {return MenuBorderType.HALFCROSS;}
+
+    @Override
+    public String getBorderColor() {return "blue";}
     public void openInventory(){
         inventory = Bukkit.createInventory(this, getSize(), getName());
         this.setMenuItems();
@@ -48,7 +55,7 @@ public class factionMenu extends Menu {
             case PAPER -> {
                 plr.closeInventory();
                 plr.closeInventory();
-                plr.sendMessage(languageUtil.getMessage("menuItem-getFactionName-usage"));
+                plr.sendMessage(languageMngr.getMessage("menuItem-getFactionName-usage"));
                 poi.setType(InputType.INFO);
                 MenuMngr.setPlayerOnInput(poi);
             }
@@ -61,18 +68,19 @@ public class factionMenu extends Menu {
     @Override
     public void setMenuItems () {
         ItemStack[] items = MenuCreationUtil.createBackGround(
-                getSize(), Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+                getSize(), Material.LIGHT_BLUE_STAINED_GLASS_PANE
+                ,getBorder(),getBorderColor());
 
         items[16] =  MenuCreationUtil.createItem(
-                languageUtil.getMessage("menuItem-leave"),
+                languageMngr.getMessage("menuItem-leave"),
                 Material.BARRIER,
                 new ArrayList<>());
         items[13] =  MenuCreationUtil.createItem(
-                languageUtil.getMessage("menuItem-teleport"),
+                languageMngr.getMessage("menuItem-teleport"),
                 Material.OAK_DOOR,
                 new ArrayList<>());
         items[10] =  MenuCreationUtil.createItem(
-                languageUtil.getMessage("menuItem-info"),
+                languageMngr.getMessage("menuItem-info"),
                 Material.PAPER,
                 new ArrayList<>());
 

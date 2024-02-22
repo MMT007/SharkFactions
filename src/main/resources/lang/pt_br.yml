@@ -15,6 +15,15 @@ help-factionChat: "§eColoque \".\" no Começo de Uma Frase Para Falar No Chat D
 
 
 
+protectedArea-warn: "§7[Factions] §cAqui é Uma Area Protegida"
+protectedArea-removed: "§7[Factions] §aRegião Protegida Removida"
+protectedArea-set: "§7[Factions] §aRegião Protegida Criada"
+
+
+
+insufficient-balance: "§7[Factions] §cVocê Não Tem Dinherio Suficiente Para Fazer Isso. Você Prescisa De $%cost%"
+new-balance: "§7[Factions] §aSua Nova Quantia é De: §6$%bal%"
+
 cant-perform-action: "§7[Factions] §cVocê Não Tem Permissão Para Fazer Isso."
 cant-attack-ally: "§7[Factions] §cVocê Não Pode Atacar Um Aliado!"
 
@@ -92,12 +101,17 @@ menuItem-getPlayerName-usage: |
  §b(Exemplo: MMT007_backUP)
  §cNome §lNão §r§cPode Conter Espaços.
 menuItem-getFactionName-usage: |
-  §bDigite O Nome da Facçção:
-  §b(Exemplo: DeathStranders)
-  §cNome §lNão §r§cPode Conter Espaços.
+ §bDigite O Nome da Facçção:
+ §b(Exemplo: DeathStranders)
+ §cNome §lNão §r§cPode Conter Espaços.
+menuItem-info-usage: |
+ §bDigite O Nome da Facçção:
+ §b(Exemplo: DeathStranders)
+ §cNome §lNão §r§cPode Conter Espaços.
 menuItem-createFaction-usage: |
   §bDigite O Nome E Tag de Sua Facçção:
   §b(Exemplo: DeathStranders DS)
   §cNome §lNão §r§cPode Conter Espaços.
 
 config-loaded: "§7[Factions] §aConfigurações Recarregadas Com Sucesso."
+error: "§7[Factions] §cAlgo Deu Errado..."

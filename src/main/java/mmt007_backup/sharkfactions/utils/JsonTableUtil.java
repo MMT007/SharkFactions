@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 import com.google.gson.GsonBuilder;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,9 +18,8 @@ public class JsonTableUtil {
     private static final SharkFMain SHARK_F_MAIN = SharkFMain.getPlugin();
     public static ArrayList<Players> players = new ArrayList<>();
 
-    public static Map<Integer, Factions> factions = new HashMap<>();
-    public static Map<String,Integer> facNameMap = new HashMap<>();
-    public static Map<String,Integer> facUUIDMap = new HashMap<>();
+    public static Map<String, Factions> factions = new HashMap<>();
+    public static Map<String,String> facNameMap = new HashMap<>();
 
     public static HashMap<String, Integer> playerIndex = new HashMap<>();
 
@@ -140,7 +139,7 @@ public class JsonTableUtil {
             }
         }
 
-        return languageUtil.getMessage("free-zone");
+        return languageMngr.getMessage("free-zone");
     }
 
 
@@ -149,7 +148,7 @@ public class JsonTableUtil {
         if(!getFaction(fac.getUuid()).getUuid().equals("")){return;}
 
         factions.put(
-                fac.getUuid().hashCode(),
+                fac.getUuid(),
                 fac
         );
 
@@ -158,12 +157,11 @@ public class JsonTableUtil {
     }
 
     public static Factions getFaction(String id_name) {
-        Integer hash = facUUIDMap.get(id_name) == null ?
-                facNameMap.get(id_name) : facUUIDMap.get(id_name);
+        String uuid = factions.get(id_name) == null ? facNameMap.get(id_name) : id_name;
 
-        if(factions.get(hash) == null){return Factions.getEmpty();}
+        if(factions.get(uuid) == null){return Factions.getEmpty();}
 
-        return factions.get(hash);
+        return factions.get(uuid);
     }
     public static Factions getFaction(Player plr){
         return getFaction(getPlayer(plr.getUniqueId().toString()).getFuuid());
@@ -175,8 +173,7 @@ public class JsonTableUtil {
 
         if(getFaction(fac.getUuid()).getUuid().equals("")){return;}
 
-        int key = facUUIDMap.get(fac.getUuid());
-        factions.replace(key,fac);
+        factions.replace(fac.getUuid(),fac);
 
         saveFactionTable();
 
@@ -187,7 +184,7 @@ public class JsonTableUtil {
 
         if(fac.getUuid().equals("")){return;}
 
-        factions.remove(facUUIDMap.get(fac.getUuid()));
+        factions.remove(fac.getUuid());
 
         listSubCommandConsts.loadPages();
         saveFactionTable();
@@ -222,7 +219,7 @@ public class JsonTableUtil {
             file.createNewFile();
             Writer writer = new FileWriter(file, false);
 
-            Type type = new TypeToken<Map<Tuple<String,String>,Factions>>(){}.getType();
+            Type type = new TypeToken<Map<String,Factions>>(){}.getType();
             Map<String,Factions> temp = new HashMap<>();
             factions.forEach((k,v) -> temp.put(k.toString(),v));
 
@@ -259,11 +256,10 @@ public class JsonTableUtil {
             try {
                 reader = new FileReader(ffile);
 
-                Type type = new TypeToken<Map<Integer,Factions>>(){}.getType();
-                Map<Integer,Factions> temp = gson.fromJson(reader, type);
+                Type type = new TypeToken<Map<String,Factions>>(){}.getType();
+                Map<String,Factions> temp = gson.fromJson(reader, type);
 
                 temp.forEach((k,v) -> {
-                    facUUIDMap.put(v.getUuid(),k);
                     facNameMap.put(v.getName(),k);
                     factions.put(k, v);
                 });

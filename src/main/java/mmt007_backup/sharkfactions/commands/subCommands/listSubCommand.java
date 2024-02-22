@@ -18,6 +18,12 @@ public class listSubCommand extends SubCommand {
     }
 
     @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName())};}
+
+    @Override
     public String getSyntax() {
         return "List";
     }

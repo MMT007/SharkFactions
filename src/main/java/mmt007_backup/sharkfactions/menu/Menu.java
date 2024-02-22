@@ -1,5 +1,6 @@
 package mmt007_backup.sharkfactions.menu;
 
+import mmt007_backup.sharkfactions.menu.models.MenuBorderType;
 import mmt007_backup.sharkfactions.menu.models.PlayerMenuUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,6 +20,8 @@ public abstract class Menu implements InventoryHolder {
     @NotNull
     public abstract String getName();
     public abstract int getSize();
+    public abstract MenuBorderType getBorder();
+    public abstract String getBorderColor();
     public void openInventory(){
             inventory = Bukkit.createInventory(this, getSize(), getName());
             this.setMenuItems();

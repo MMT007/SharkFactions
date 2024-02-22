@@ -2,10 +2,11 @@ package mmt007_backup.sharkfactions.menu.menus;
 
 import mmt007_backup.sharkfactions.commands.subCommands.homeSubCommand;
 import mmt007_backup.sharkfactions.commands.subCommands.leaveSubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.menu.Menu;
 import mmt007_backup.sharkfactions.menu.MenuMngr;
-import mmt007_backup.sharkfactions.menu.utils.MenuCreationUtil;
+import mmt007_backup.sharkfactions.menu.models.MenuBorderType;
+import mmt007_backup.sharkfactions.utils.MenuCreationUtil;
 import mmt007_backup.sharkfactions.menu.models.InputType;
 import mmt007_backup.sharkfactions.menu.models.PlayerMenuUtility;
 import mmt007_backup.sharkfactions.menu.models.playerOnInput;
@@ -27,7 +28,14 @@ public class factionOwnerMenu extends Menu {
     public @NotNull String getName() {return "Faction";}
 
     @Override
-    public int getSize() {return 27;}
+    public int getSize() {return 36;}
+
+    @Override
+    public MenuBorderType getBorder() {return MenuBorderType.HALFCROSS;}
+
+    @Override
+    public String getBorderColor() {return "blue";}
+
     public void openInventory(){
         inventory = Bukkit.createInventory(this, getSize(), getName());
         this.setMenuItems();
@@ -45,7 +53,7 @@ public class factionOwnerMenu extends Menu {
             }
             case PAPER -> {
                 plr.closeInventory();
-                plr.sendMessage(languageUtil.getMessage("menuItem-info-usage"));
+                plr.sendMessage(languageMngr.getMessage("menuItem-info-usage"));
                 poi.setType(InputType.INFO);
                 MenuMngr.setPlayerOnInput(poi);
             }
@@ -55,25 +63,25 @@ public class factionOwnerMenu extends Menu {
             }
             case DIAMOND -> {
                 plr.closeInventory();
-                plr.sendMessage(languageUtil.getMessage("menuItem-getFactionName-usage"));
+                plr.sendMessage(languageMngr.getMessage("menuItem-getFactionName-usage"));
                 poi.setType(InputType.ALLY);
                 MenuMngr.setPlayerOnInput(poi);
             }
             case IRON_SWORD -> {
                 plr.closeInventory();
-                plr.sendMessage(languageUtil.getMessage("menuItem-getFactionName-usage"));
+                plr.sendMessage(languageMngr.getMessage("menuItem-getFactionName-usage"));
                 poi.setType(InputType.ENEMY);
                 MenuMngr.setPlayerOnInput(poi);
             }
             case WRITABLE_BOOK -> {
                 plr.closeInventory();
-                plr.sendMessage(languageUtil.getMessage("menuItem-getPlayerName-usage"));
+                plr.sendMessage(languageMngr.getMessage("menuItem-getPlayerName-usage"));
                 poi.setType(InputType.INVITE);
                 MenuMngr.setPlayerOnInput(poi);
             }
             case WHITE_BANNER ->{
                 plr.closeInventory();
-                plr.sendMessage(languageUtil.getMessage("menuItem-getFactionName-usage"));
+                plr.sendMessage(languageMngr.getMessage("menuItem-getFactionName-usage"));
                 poi.setType(InputType.TRUCE);
                 MenuMngr.setPlayerOnInput(poi);
             }
@@ -82,34 +90,35 @@ public class factionOwnerMenu extends Menu {
     @Override
     public void setMenuItems () {
         ItemStack[] items = MenuCreationUtil.createBackGround(
-                getSize(), Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+                getSize(), Material.LIGHT_BLUE_STAINED_GLASS_PANE
+                ,getBorder(),getBorderColor());
 
         items[16] = MenuCreationUtil.createItem(
-                languageUtil.getMessage("menuItem-disband"),
+                languageMngr.getMessage("menuItem-disband"),
                 Material.BARRIER,
                 new ArrayList<>());
         items[12] = MenuCreationUtil.createItem(
-                languageUtil.getMessage("menuItem-teleport"),
+                languageMngr.getMessage("menuItem-teleport"),
                 Material.OAK_DOOR,
                 new ArrayList<>());
         items[10] = MenuCreationUtil.createItem(
-                languageUtil.getMessage("menuItem-info"),
+                languageMngr.getMessage("menuItem-info"),
                 Material.PAPER,
                 new ArrayList<>());
         items[15] = MenuCreationUtil.createItem(
-                languageUtil.getMessage("menuItem-enemy"),
+                languageMngr.getMessage("menuItem-enemy"),
                 Material.IRON_SWORD,
                 new ArrayList<>());
         items[14] = MenuCreationUtil.createItem(
-                languageUtil.getMessage("menuItem-ally"),
+                languageMngr.getMessage("menuItem-ally"),
                 Material.DIAMOND,
                 new ArrayList<>());
         items[13] = MenuCreationUtil.createItem(
-                languageUtil.getMessage("menuItem-invite"),
+                languageMngr.getMessage("menuItem-invite"),
                 Material.WRITABLE_BOOK,
                 new ArrayList<>());
         items[24] = MenuCreationUtil.createItem(
-                languageUtil.getMessage("menuItem-truce"),
+                languageMngr.getMessage("menuItem-truce"),
                 Material.WHITE_BANNER,
                 new ArrayList<>());
 

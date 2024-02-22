@@ -1,7 +1,7 @@
 package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.models.Players;
 import mmt007_backup.sharkfactions.utils.JsonTableUtil;
@@ -9,7 +9,6 @@ import mmt007_backup.sharkfactions.utils.Utilitis;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class disbandSubCommand extends SubCommand {
     @Override
@@ -23,6 +22,12 @@ public class disbandSubCommand extends SubCommand {
     }
 
     @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName())};}
+
+    @Override
     public String getSyntax() {
         return "Disband";
     }
@@ -32,12 +37,12 @@ public class disbandSubCommand extends SubCommand {
         Factions fac = JsonTableUtil.getFaction(plr);
 
         if (fac.getUuid().equals("")) {
-            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            plr.sendMessage(languageMngr.getMessage("faction-hasNone"));
             return;
         }
 
         if(!Utilitis.isFactionOwner(plr)){
-            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+            plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
             return;
         }
 
@@ -48,6 +53,6 @@ public class disbandSubCommand extends SubCommand {
             }
 
             JsonTableUtil.deleteFaction(fac.getUuid());
-            plr.sendMessage(languageUtil.getMessage("faction-disbanded"));
+            plr.sendMessage(languageMngr.getMessage("faction-disbanded"));
     }
 }

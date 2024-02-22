@@ -7,7 +7,7 @@ import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.models.InviteType;
 import mmt007_backup.sharkfactions.models.Players;
 import mmt007_backup.sharkfactions.utils.Utilitis;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Chunk;
@@ -49,7 +49,7 @@ public class GeneralEventHandler implements Listener {
 
         for(String id : attackerFac.getAllys()){
             if(Objects.equals(attackedFac.getUuid(), id)){
-                attacker.sendMessage(languageUtil.getMessage("cant-attack-ally"));
+                attacker.sendMessage(languageMngr.getMessage("cant-attack-ally"));
                 e.setCancelled(true);
                 return;
             }
@@ -58,7 +58,7 @@ public class GeneralEventHandler implements Listener {
         Players attackedP = JsonTableUtil.getPlayer(attacked.getUniqueId().toString());
 
         if(Objects.equals(attackerP.getFuuid(), attackedP.getFuuid())){
-            attacker.sendMessage(languageUtil.getMessage("cant-attack-ally"));
+            attacker.sendMessage(languageMngr.getMessage("cant-attack-ally"));
             e.setCancelled(true);
         }
     }
@@ -78,11 +78,11 @@ public class GeneralEventHandler implements Listener {
             switch (fac.getInvite().getType()){
 
                 case ALLY -> {
-                    plr.sendMessage(languageUtil.getMessage("faction-ally-invite-received")
+                    plr.sendMessage(languageMngr.getMessage("faction-ally-invite-received")
                             .replaceAll("%fac%",PFac.getName()));
                 }
                 case TRUCE -> {
-                    plr.sendMessage(languageUtil.getMessage("faction-truce-invite-received")
+                    plr.sendMessage(languageMngr.getMessage("faction-truce-invite-received")
                             .replaceAll("%fac%",PFac.getName()));
                 }
             }
@@ -98,7 +98,7 @@ public class GeneralEventHandler implements Listener {
             Chunk chk = e.getBlock().getChunk();
             FChunk chunk = new FChunk(chk.getX(), chk.getZ(), chk.getWorld().getName());
             if (JsonTableUtil.isChunkFromPlayerFactions(plr, chunk) == -1) {
-                plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+                plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
                 e.setCancelled(true);
             }
         }
@@ -112,7 +112,7 @@ public class GeneralEventHandler implements Listener {
             Chunk chk = Objects.requireNonNull(e.getTo()).getChunk();
             FChunk chunk = new FChunk(chk.getX(), chk.getZ(), chk.getWorld().getName());
             if (JsonTableUtil.isChunkFromPlayerFactions(plr, chunk) == -1) {
-                plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+                plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
                 e.setCancelled(true);
             }
 
@@ -134,7 +134,7 @@ public class GeneralEventHandler implements Listener {
                 }
             }
 
-            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+            plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
             e.setCancelled(true);
         }
 
@@ -150,7 +150,7 @@ public class GeneralEventHandler implements Listener {
                     Chunk chk = e.getClickedBlock().getChunk();
                     FChunk chunk = new FChunk(chk.getX(), chk.getZ(), chk.getWorld().getName());
                     if (JsonTableUtil.isChunkFromPlayerFactions(plr, chunk) == -1) {
-                        plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+                        plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
                         e.setCancelled(true);
                     }
 
@@ -210,7 +210,7 @@ public class GeneralEventHandler implements Listener {
         for(Factions ally : allies){
             for(FChunk fChunk : ally.getChunks()){
                 if(!utils.compareFChunktoChunk(chunk, fChunk)){
-                    plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+                    plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
                     e.setCancelled(true);
                 }
             }

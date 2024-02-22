@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class languageUtil {
+public class languageMngr {
     private static final Plugin main = SharkFMain.getPlugin();
     private static final Map<String, Map<String,String>> messages = new HashMap<>();
     private static final ArrayList<language> languages = new ArrayList<>();
@@ -28,8 +28,9 @@ public class languageUtil {
         return Message == null ? "§4\"{0}\" Message Does Not Exist".replace("{0}",message) : Message;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void loadMessages(){
-        Bukkit.getLogger().info(ChatColor.DARK_GRAY +"[[ SFactions ]] Carregando Idiomas...");
+        Bukkit.getLogger().info("[[ SFactions ]] Carregando Idiomas...");
         loadLanguagesNames();
 
         File langFolder = new File(main.getDataFolder() + "/langs");
@@ -41,18 +42,24 @@ public class languageUtil {
             String name = lang.getName();
             File langFile = new File(langFolder, name + ".yml");
 
+            InputStream in = main.getResource("lang/" + name + ".yml");
+
             try {
                 if (!langFile.exists()) {
-                    InputStream in = main.getResource("lang/" + name + ".yml");
                     Files.copy(in, langFile.toPath());
                 }
-            } catch (IOException e) {
-                Bukkit.getLogger().warning(ChatColor.RED +"[[ SFactions ]] Não Foi Possivel Criar Arquivo ["+name+"]");
+
+            } catch (NullPointerException | IOException e) {
+                Bukkit.getLogger().warning("[[ SFactions ]] Não Foi Possivel Criar Arquivo ["+name+"]");
+                e.printStackTrace();
+                continue;
             }
+
+            Bukkit.getLogger().info("[[ SFactions ]] ["+name+"] Carregado");
         }
 
         if (langFolder.listFiles().length == 0) {
-            Bukkit.getLogger().warning(ChatColor.RED +"[[ SFactions ]] Lista De Idiomas Vazia");
+            Bukkit.getLogger().warning("[[ SFactions ]] Lista De Idiomas Vazia");
             return;
         }
 
@@ -71,7 +78,7 @@ public class languageUtil {
 
             messages.put(langName,localmessages);
         }
-        Bukkit.getLogger().info(ChatColor.DARK_GREEN +"[[ SFactions ]] Idiomas Carregado!");
+        Bukkit.getLogger().info("[[ SFactions ]] Idiomas Carregado!");
     }
 
     private static void loadLanguagesNames(){

@@ -1,7 +1,7 @@
 package mmt007_backup.sharkfactions.commands.subCommands;
 
 import mmt007_backup.sharkfactions.commands.SubCommand;
-import mmt007_backup.sharkfactions.lang.languageUtil;
+import mmt007_backup.sharkfactions.lang.languageMngr;
 import mmt007_backup.sharkfactions.models.Factions;
 import mmt007_backup.sharkfactions.models.Invite;
 import mmt007_backup.sharkfactions.models.InviteType;
@@ -20,6 +20,12 @@ public class truceSubCommand extends SubCommand {
     public String getDescription() {
         return "Declara Um Tratado Paz A Um Inimigo";
     }
+
+    @Override
+    public String getPermission() {return "sharkfactions." + getName();}
+
+    @Override
+    public String[] getAutoComplete() {return new String[]{capitalize(getName()),"{name}"};}
 
     @Override
     public String getSyntax() {
@@ -41,19 +47,19 @@ public class truceSubCommand extends SubCommand {
 
         //--If The Faction To Have The Truce With Is Null, Send Message And Return.
         if(trucedFac.getUuid().equals("")){
-            plr.sendMessage(languageUtil.getMessage("faction-nonExistent")
+            plr.sendMessage(languageMngr.getMessage("faction-nonExistent")
                     .replaceAll("%fac%",args[0]));
             return;
         }
 
         //--Checks If Player Has Owner Permission/ Faction.
         if(!Utilitis.isFactionOwner(plr)){
-            plr.sendMessage(languageUtil.getMessage("cant-perform-action"));
+            plr.sendMessage(languageMngr.getMessage("cant-perform-action"));
             return;
         }
 
         if(fac.getUuid().equals("")){
-            plr.sendMessage(languageUtil.getMessage("faction-hasNone"));
+            plr.sendMessage(languageMngr.getMessage("faction-hasNone"));
             return;
         }
 
@@ -64,10 +70,10 @@ public class truceSubCommand extends SubCommand {
 
         //--Checks If Owner Is Online And If Yes, Send Truce Message
         if(trucedFacOwner != null){
-            trucedFacOwner.sendMessage(languageUtil.getMessage("faction-truce-invite-received")
+            trucedFacOwner.sendMessage(languageMngr.getMessage("faction-truce-invite-received")
                     .replaceAll("%fac%",fac.getName()));
         }
 
-        plr.sendMessage(languageUtil.getMessage("faction-truce-sent"));
+        plr.sendMessage(languageMngr.getMessage("faction-truce-sent"));
     }
 }
